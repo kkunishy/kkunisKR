@@ -1,9 +1,7 @@
-import tkinter
 import tkinter as tk
 import random as rd
 #변수
-petList=[""
-                     ]
+petList=[]
 fnt=("맑은 고딕 Semilight",15)
 
 #함수
@@ -14,6 +12,7 @@ class ceobe:
     petWater=0
     petNameEntry=0
     petNameWindow=0
+    petPicNum=0
     fnt = ("맑은 고딕 Semilight", 15)
 
     #실행시키자마자 사용
@@ -39,29 +38,34 @@ class ceobe:
         
         petNameLabel=tk.Label(root,text="이름:"+self.petName,fg="green",font=fnt)
         petNameLabel.place(x=170,y=430)
-        self.petImgSelect()
+        self.petPicSelect()
         
-    def petImgSelect(self):
+    def petPicSelect(self):
         global petPicSelect1,petPicSelect2,petPicSelect3,petPicSelect4,petPicSelect5
 
-        petImgSelect=tk.Toplevel()
-        petImgSelect.title("입양할 케오 선택")
-        petImgSelect.geometry("1100x200")
+        self.petNameWindow=tk.Toplevel()
+        self.petNameWindow.title("입양할 케오 선택")
+        self.petNameWindow.geometry("1100x200")
 
-        petPicSelect1Btn=tkinter.Button(petImgSelect, image=petPicSelect1,width=150,height=150,bg="white")
+
+        petPicSelect1Btn=tk.Button(self.petNameWindow, image=petPicSelect1,width=150,height=150,bg="white",command=lambda:self.petPicSetup(0))
         petPicSelect1Btn.place(x=20,y=20)
-        petPicSelect2Btn=tkinter.Button(petImgSelect, image=petPicSelect2,width=150,height=150,bg="white")
+        petPicSelect2Btn=tk.Button(self.petNameWindow, image=petPicSelect2,width=150,height=150,bg="white",command=lambda:self.petPicSetup(1))
         petPicSelect2Btn.place(x=220,y=20)
-        petPicSelect3Btn=tkinter.Button(petImgSelect, image=petPicSelect3,width=150,height=150,bg="white")
+        petPicSelect3Btn=tk.Button(self.petNameWindow, image=petPicSelect3,width=150,height=150,bg="white",command=lambda:self.petPicSetup(2))
         petPicSelect3Btn.place(x=420,y=20)
-        petPicSelect4Btn=tkinter.Button(petImgSelect, image=petPicSelect4,width=150,height=150,bg="white")
+        petPicSelect4Btn=tk.Button(self.petNameWindow, image=petPicSelect4,width=150,height=150,bg="white",command=lambda:self.petPicSetup(3))
         petPicSelect4Btn.place(x=620,y=20)
-        petPicSelect5Btn=tkinter.Button(petImgSelect, image=petPicSelect5,width=150,height=150,bg="white")
+        petPicSelect5Btn=tk.Button(self.petNameWindow, image=petPicSelect5,width=150,height=150,bg="white",command=lambda:self.petPicSetup(4))
         petPicSelect5Btn.place(x=820,y=20)
 
-        
+    def petPicSetup(self,select_num):
+        self.petPicNum=select_num
+        main()
 
-    def peteatWater(self):
+
+
+    def petEatWater(self):
         self.petWater += 1
         x = rd.randint(20,380)
         y = rd.randint(20,380)
@@ -69,7 +73,7 @@ class ceobe:
         petWaterLb["text"]="물"+str(self.petWater)
         root.after(500, self.peteatDel())
 
-    def peteatMeat(self):
+    def petEatMeat(self):
         self.petMeat+=1
         x=rd.randint(20,380)
         y=rd.randint(20,380)
@@ -83,15 +87,29 @@ class ceobe:
                            
 
 def main():
-    canvas.create_image(200,200,image=petList[0],tag="CHARACTER")
-    petWaterLb["text"]="물:"+str(ceobe.petWater)
-    petMeatLb["text"]="고기:"+str(ceobe.petMeat)
+    canvas.create_image(200,200,image=petIdleImg[petList[ceobeNum].petPicNum],tag="CHARACTER")
+    petWaterLb["text"]="물:"+str(petList[ceobeNum].petWater)
+    petMeatLb["text"]="고기:"+str(petList[ceobeNum].petMeat)
+
+
+def leftBtn():
+    global ceobeNum
+
+    if ceobeNum<=0:
+        ceobeNum=0
+    else:
+        ceobeNum-=1
 
 def petAdd():
+    global ceobeNum
     temp=ceobe()
     petList.append(temp)
 
+    ceobeNum=len(petList)-1
 
+
+
+petAdd()
 
 #메인
 root=tk.Tk()
@@ -109,20 +127,17 @@ ButtonSet.place(x=20,y=480)
 
 petWaterImg=tk.PhotoImage(file="water.png")
 petWaterImg=petWaterImg.subsample(6)
-petWaterBtn=tk.Button(image=petWaterImg,command=petList)
+petWaterBtn=tk.Button(image=petWaterImg,command=petList[0].petEatWater)
 petWaterBtn.place(x=110,y=480)
 petWaterLb=tk.Label(text="물",fg="blue",font=fnt)
 petWaterLb.place(x=20,y=460)
 
 petMeatImg=tk.PhotoImage(file="meat.png")
-petMeatImg=petWaterImg.subsample(6)
-petMeatBtn=tk.Button(image=petMeatImg)
+petMeatImg=petMeatImg.subsample(6)
+petMeatBtn=tk.Button(image=petMeatImg,command=petList[0].petEatMeat)
 petMeatBtn.place(x=180,y=480)
 petMeatLb=tk.Label(text="배고픔:",fg="orange",font=fnt)
 petMeatLb.place(x=20,y=490)
-
-meatBtn=tk.Button(image=petMeatImg)
-meatBtn.place(x=180,y=430)
 
 
 
@@ -133,6 +148,10 @@ petIdleImg=[
                     tk.PhotoImage(file="makaseryo.png"),
                     tk.PhotoImage(file="hello2(gif).gif")
     ]
+
+
+
+
 
 petShowImg = [
     tk.PhotoImage(file="hmm.png"),
@@ -158,7 +177,7 @@ petShowImg = [
     tk.PhotoImage(file="sleep.png"),
     tk.PhotoImage(file="gn.png")
                             ]
-
+main()
 petPicSelect1=tk.PhotoImage(file="hmm.png")
 petPicSelect1.subsample((6))
 petPicSelect2=tk.PhotoImage(file="hello.png")
@@ -170,8 +189,7 @@ petPicSelect4.subsample((6))
 petPicSelect5=tk.PhotoImage(file="hello2(gif).gif")
 petPicSelect5.subsample((6))
 
-petAdd()
-main()
+
 root.mainloop()
 
 
