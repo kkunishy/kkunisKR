@@ -78,7 +78,7 @@ class Ceobe:
         self.petWater += 1
         x = rd.randint(20, 380)
         y = rd.randint(20, 380)
-        canvas.create_text(x, y, text="water+1", fill="blue", font=fnt, tag="text")
+        canvas.create_text(x, y,text="water+1",fill="blue", font=fnt, tag="text")
         petWaterLb["text"] = "물" + str(self.petWater)
         root.after(500, self.peteatDel())
 
