@@ -5,12 +5,14 @@ row=12          #가로
 col=9            #세로
 select_chip=0
 map_data=[]
-
+char_data=[]
 
 
 def init_map():
     for y in range(0,col):
         map_data.append([2]*row)
+    for y in range(0,8):
+        char_data.append([-10]*2)
 
 #map_data [y][x]
 def draw_map():
@@ -23,13 +25,29 @@ def set_map(e):
     x=e.x//60
     y=e.y//60
 
-    if 0<=y<row and 0<=x<col:
+    if 0<=x<row and 0<=y<col:
         map_data[y][x] =select_chip
         canvas.create_image(x*60+30,y*60+30,image=img[select_chip])
+    else:
+        c_x = char_data[select_chip][0]
+        c_y = char_data[select_chip][0]
+        map_data[c_y][c_x] = 2
+        canvas.create_image(c_x*60+30,c_y*60+30, image=img[2])
+        char_data[select_chip][0] = x
+        char_data[select_chip][1] = y
+        canvas.create_image(x * 60 + 30, y*60+30,image=img[select_chip])
+
+def change_chip(e):
+    global select_chip
+    if 0<=e.y//60<len(img):
+        select_chip=e.y//60
+        draw_chip()
 
 def draw_chip():
-    for i in range(0,4):
-        chip_canvas.create_image(30,i*60+30,image=img[i])
+
+    chip_canvas.delete("chip")
+    for i in range(0,8):
+        chip_canvas.create_image(30,i*60+30,image=img[i],tag="chip")
 
     chip_canvas.create_rectangle(4,60*select_chip+4,60-3,60*(select_chip+1),outline="red",width=5,tag="chip")
 
@@ -71,7 +89,11 @@ img=    [
                     tk.PhotoImage(file="chip00.png"),
                     tk.PhotoImage(file="chip01.png"),
                     tk.PhotoImage(file="chip02.png"),
-                    tk.PhotoImage(file="chip03.png")
+                    tk.PhotoImage(file="chip03.png"),
+                    tk.PhotoImage(file="pen00.png"),
+                    tk.PhotoImage(file="red00.png"),
+                    tk.PhotoImage(file="kuma00.png"),
+                    tk.PhotoImage(file="seiuchi00.png")
                     ]
 
 
