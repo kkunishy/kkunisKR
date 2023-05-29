@@ -36,7 +36,8 @@ def mouse_click(e):
             print(game_over)
             break
         else:
-            if mx
+            if mx:
+                pass
     if game_over == 10:
         canvas.delete()
         canvas.create_rectangle(0,0,width,height,fill="black")
