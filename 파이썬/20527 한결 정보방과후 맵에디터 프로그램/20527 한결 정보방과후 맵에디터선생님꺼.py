@@ -84,6 +84,7 @@ def set_map(e) :
                 canvas.create_image(c_x*60+30, c_y*60+30, image = img[2])
 
                 #캐릭터 좌표 저장하는 리스트에 현재 좌표 입력해주기, 그림 그리기
+                map_data[y][x]=select_chip
                 char_data[select_chip][0] = x
                 char_data[select_chip][1] = y
                 canvas.create_image(x*60+30, y*60+30, image = img[select_chip])
