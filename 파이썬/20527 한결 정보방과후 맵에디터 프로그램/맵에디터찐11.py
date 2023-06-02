@@ -1,4 +1,5 @@
 import tkinter as tk
+import random as rd
 
 row = 12       
 col = 9    
@@ -7,6 +8,7 @@ select_chip = 0
 candy=0
 stage=1
 timer=0
+key=""
 
 char_data = []
 char_list=[]
@@ -18,12 +20,49 @@ class mob:
     xy=[]
     img=""
     img_num=0
+    direction=0
 
     def __init__(self,name,img,img_num):
         self.name=name
         self.img=img
         self.img_num=img_num
         print(name,"생성")
+
+    def move(self):
+        x=0
+        y=0
+
+        if self.name!="blue":
+            self.direction=rd.randint(1,4)
+
+            
+        #하1, 상2, 좌3, 우4
+        if self.direction==1:
+            y=1
+        elif self.direction==2:
+            y=-1
+        elif self.direction==3:
+            x=-1
+        elif self.direction==4:
+            x=1
+        x+=self.xy[0]
+        y+=self.xy[1]
+
+        
+        if 0<=x<col and 0<=y<row:
+            if map_data[y][x]>=2:
+                self.xy[1]=y
+                self.xy[0]=x
+
+                
+        self.direction=0
+
+
+def move_char():
+    for i in char_list:
+        i.move()
+
+    root.after(1000,move_char)
 
 def init_char():
     temp=mob("blue",img_pen,3)
@@ -44,23 +83,22 @@ def set_map():
     global stage, map_data
 
     if stage==1:
-        map_data = [
-                                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-                                [0, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 0, ],
-                                [0, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 0, ],
-                                [0, 2, 2, 2, 3, 1, 1, 3, 3, 2, 2, 0, ],
-                                [0, 2, 2, 2, 3, 3, 3, 3, 3, 2, 2, 0, ],
-                                [0, 0, 2, 2, 2, 3, 2, 2, 2, 2, 2, 0, ],
-                                [2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, ],
-                                [2, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0, ],
-                                [2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, ],
-                                ]
-        candy =10
-        char_list[0].xy = [2, 2]
-        char_list[1].xy = [8, 6]
-        char_list[2].xy = [-10, -10]
-        char_list[3].xy = [-10, -10]
-    
+                    map_data = [
+                    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+                    [0, 0, 2, 2, 2, 3, 2, 2, 2, 2, 0, 0, ],
+                    [0, 0, 2, 2, 2, 3, 3, 2, 2, 2, 0, 0, ],
+                    [0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 0, 0, ],
+                    [0, 2, 2, 2, 2, 2, 3, 0, 2, 2, 0, 0, ],
+                    [0, 2, 2, 2, 2, 2, 2, 0, 3, 2, 0, 0, ],
+                    [2, 0, 0, 0, 0, 0, 2, 2, 3, 2, 0, 0, ],
+                    [2, 2, 2, 2, 2, 0, 0, 0, 2, 2, 0, 0, ],
+                    [2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, ],
+                    ]
+    candy =7
+    char_list[0].xy = [9, 6]
+    char_list[1].xy = [3, 1]
+    char_list[2].xy = [9, 1]
+    char_list[3].xy = [2, 5]    
 
     if stage==2:
         map_data = [
@@ -74,10 +112,13 @@ def set_map():
                             [2, 0, 0, 2, 0, 0, 5, 2, 2, 2, 2, 0],
                             [2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0]
                                 ]
-        candy=8
+    candy=8
 
+    move_char()
+
+        
 def draw_map():
-    global row,col,map_data
+    global row,col,map_data,timer
     
 
     for y in range(0,col):
@@ -96,7 +137,12 @@ def draw_map():
 
     root.after(1000,draw_map)
         
+def key_down(e):
+    
 
+
+
+    
 def main():
     init_char()
     set_map()
@@ -109,6 +155,8 @@ root=tk.Tk()
 root.title("펭귄게임")
 root.geometry("720x540")
 root.resizable(False,False)
+root.bind("<KeyPress>",key_down)
+
 
 canvas=tk.Canvas(width=720,height=540,bg="white")
 canvas.pack()
