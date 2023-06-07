@@ -39,12 +39,16 @@ class mob:
         #하1, 상2, 좌3, 우4
         if self.direction==1:
             y=1
+            self.img_num=3
         elif self.direction==2:
             y=-1
+            self.img_num=0
         elif self.direction==3:
             x=-1
+            self.img_num=6
         elif self.direction==4:
             x=1
+            self.img_num=9
         x+=self.xy[0]
         y+=self.xy[1]
 
@@ -59,9 +63,24 @@ class mob:
 
 
 def move_char():
+    global candy, stage
+    
     for i in char_list:
         i.move()
 
+    x=char_list[0].xy[0]
+    y=char_list[0].xy[1]
+
+    if map_data[y][x]==3:
+        map_data[y][x]=2
+        candy-=1
+
+    for i in char_list:
+        if i!=0:
+            if i.xy[0]==x and i.xy[1]==y:
+                stage=0
+
+                
     root.after(1000,move_char)
 
 def init_char():
@@ -80,7 +99,7 @@ def init_char():
     
 
 def set_map():
-    global stage, map_data
+    global stage, map_data, candy
 
     if stage==1:
                     map_data = [
@@ -119,25 +138,34 @@ def set_map():
         
 def draw_map():
     global row,col,map_data,timer
-    
+    fnt=("맑은 고딕 Semilight",20,"bold")
 
     for y in range(0,col):
         for x in range(0,row):
-            if map_data[y][x]>3:
-                canvas.create_image(x*60+30,y*60+30,image=img_chip[2],tag = "BG")
-            else:
                 canvas.create_image(x*60+30,y*60+30,image=img_chip[map_data[y][x]],tag = "BG")
+
+    canvas.create_text(100,20,text="Candy:"+str(candy-1),font=fnt,fill="darkred")
+    canvas.create_text(500,20,text="Time:"+str(timer),font=fnt,fill="darkred")
             
     for i in char_list:
-        if i.xy[0]>=0 and i.xy[1]>=0:
-            canvas.create_image(i.xy[0]*60+30,i.xy[1]*60+30,image=i.img[i.img_num+timer],tag="BG")
-            print(i.xy)
+            canvas.create_image(i.xy[0]*60+30,i.xy[1]*60+30,image=i.img[i.img_num+timer%3],tag="BG")
         
-    timer=(timer+1)%3
-
+    timer=(timer+1)
     root.after(1000,draw_map)
         
 def key_down(e):
+    key=e.keysym
+
+
+    if key=="s":
+        char_list[0].direction=1
+    elif key=="w":
+        char_list[0].direction=2
+    elif key=="a":
+        char_list[0].direction=3
+    elif key=="d":
+        char_list[0].direction=4
+
     
 
 
@@ -193,10 +221,29 @@ img_red=[
 img_kuma=[
                     tk.PhotoImage(file="kuma00.png"),
                     tk.PhotoImage(file="kuma01.png"),
+                    tk.PhotoImage(file="kuma02.png"),
+                    tk.PhotoImage(file="kuma00.png"),
+                    tk.PhotoImage(file="kuma01.png"),
+                    tk.PhotoImage(file="kuma02.png"),
+                    tk.PhotoImage(file="kuma00.png"),
+                    tk.PhotoImage(file="kuma01.png"),
+                    tk.PhotoImage(file="kuma02.png"),
+                    tk.PhotoImage(file="kuma00.png"),
+                    tk.PhotoImage(file="kuma01.png"),
                     tk.PhotoImage(file="kuma02.png")
+                    
                     ]
 
 img_seiuchi=[
+                    tk.PhotoImage(file="seiuchi00.png"),
+                    tk.PhotoImage(file="seiuchi01.png"),
+                    tk.PhotoImage(file="seiuchi02.png"),
+                    tk.PhotoImage(file="seiuchi00.png"),
+                    tk.PhotoImage(file="seiuchi01.png"),
+                    tk.PhotoImage(file="seiuchi02.png"),
+                    tk.PhotoImage(file="seiuchi00.png"),
+                    tk.PhotoImage(file="seiuchi01.png"),
+                    tk.PhotoImage(file="seiuchi02.png"),
                     tk.PhotoImage(file="seiuchi00.png"),
                     tk.PhotoImage(file="seiuchi01.png"),
                     tk.PhotoImage(file="seiuchi02.png")
