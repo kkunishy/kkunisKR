@@ -9,6 +9,7 @@ candy=0
 stage=1
 timer=0
 key=""
+index=0
 
 char_data = []
 char_list=[]
@@ -74,15 +75,17 @@ def move_char():
     if map_data[y][x]==3:
         map_data[y][x]=2
         candy-=1
-
+        if candy<=8:
+            stage+=1
+            set_map()
+    
     for i in char_list:
-        if i!=0:
+        if i.name!="blue":
             if i.xy[0]==x and i.xy[1]==y:
-                stage=0
-
-                
+                stage+=1
+                set_map()
     root.after(1000,move_char)
-
+    
 def init_char():
     temp=mob("blue",img_pen,3)
     char_list.append(temp)
@@ -102,50 +105,56 @@ def set_map():
     global stage, map_data, candy
 
     if stage==1:
-                    map_data = [
-                    [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-                    [0, 0, 2, 2, 2, 3, 2, 2, 2, 2, 0, 0, ],
-                    [0, 0, 2, 2, 2, 3, 3, 2, 2, 2, 0, 0, ],
-                    [0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 0, 0, ],
-                    [0, 2, 2, 2, 2, 2, 3, 0, 2, 2, 0, 0, ],
-                    [0, 2, 2, 2, 2, 2, 2, 0, 3, 2, 0, 0, ],
-                    [2, 0, 0, 0, 0, 0, 2, 2, 3, 2, 0, 0, ],
-                    [2, 2, 2, 2, 2, 0, 0, 0, 2, 2, 0, 0, ],
-                    [2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, ],
-                    ]
-    candy =7
-    char_list[0].xy = [9, 6]
-    char_list[1].xy = [3, 1]
-    char_list[2].xy = [9, 1]
-    char_list[3].xy = [2, 5]    
+        map_data = [
+        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+        [0, 0, 2, 2, 2, 3, 2, 2, 2, 2, 0, 0, ],
+        [0, 0, 2, 2, 2, 3, 3, 2, 2, 2, 0, 0, ],
+        [0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 0, 0, ],
+        [0, 2, 2, 2, 2, 2, 3, 0, 2, 2, 0, 0, ],
+        [0, 2, 2, 2, 2, 2, 2, 0, 3, 2, 0, 0, ],
+        [2, 0, 0, 0, 0, 0, 2, 2, 3, 2, 0, 0, ],
+        [2, 2, 2, 2, 2, 0, 0, 0, 2, 2, 0, 0, ],
+        [2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, ]
+        ]
+        candy =7
+        char_list[0].xy = [9, 6]
+        char_list[1].xy = [3, 1]
+        char_list[2].xy = [9, 1]
+        char_list[3].xy = [2, 5]    
 
     if stage==2:
         map_data = [
-                            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-                            [2, 2, 2, 3, 3, 3, 3, 3, 3, 2, 2, 0],
-                            [2, 2, 2, 3, 0, 1, 1, 1, 0, 0, 2, 0],
-                            [2, 2, 2, 0, 0, 2, 4, 2, 0, 1, 2, 0],
-                            [2, 2, 0, 0, 2, 2, 2, 0, 1, 2, 2, 0],
-                            [2, 2, 0, 2, 2, 2, 0, 1, 2, 2, 2, 0],
-                            [2, 0, 0, 2, 2, 0, 1, 2, 2, 2, 2, 0],
-                            [2, 0, 0, 2, 0, 0, 5, 2, 2, 2, 2, 0],
-                            [2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0]
-                                ]
-    candy=8
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, ],
+        [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, ],
+        [0, 3, 2, 3, 3, 3, 2, 2, 2, 2, 3, 0, ],
+        [0, 3, 2, 2, 2, 3, 2, 2, 2, 2, 3, 0, ],
+        [0, 3, 2, 2, 2, 3, 2, 2, 2, 2, 3, 0, ],
+        [0, 3, 2, 2, 2, 3, 2, 2, 2, 2, 3, 0, ],
+        [0, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 0, ],
+        [0, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 0, ],
+        [1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, ]
+        ]
+        candy =38
+        char_list[0].xy = [9, 2]
+        char_list[1].xy = [2, 2]
+        char_list[2].xy = [7, 5]
+        char_list[3].xy = [3, 5]
 
     move_char()
-
         
 def draw_map():
-    global row,col,map_data,timer
+    global row,col,map_data,timer,index
     fnt=("맑은 고딕 Semilight",20,"bold")
 
     for y in range(0,col):
         for x in range(0,row):
                 canvas.create_image(x*60+30,y*60+30,image=img_chip[map_data[y][x]],tag = "BG")
-
-    canvas.create_text(100,20,text="Candy:"+str(candy-1),font=fnt,fill="darkred")
-    canvas.create_text(500,20,text="Time:"+str(timer),font=fnt,fill="darkred")
+    if index ==0:
+        canvas.create_image(350,250,image=img_title,tag="SCREEN")
+        
+    elif index==1:
+        canvas.create_text(100,20,text="Candy:"+str(candy-1),font=fnt,fill="darkred")
+        canvas.create_text(500,20,text="Time:"+str(timer),font=fnt,fill="darkred")
             
     for i in char_list:
             canvas.create_image(i.xy[0]*60+30,i.xy[1]*60+30,image=i.img[i.img_num+timer%3],tag="BG")
@@ -154,6 +163,7 @@ def draw_map():
     root.after(1000,draw_map)
         
 def key_down(e):
+    global index
     key=e.keysym
 
 
@@ -165,7 +175,8 @@ def key_down(e):
         char_list[0].direction=3
     elif key=="d":
         char_list[0].direction=4
-
+    elif key=="space" and index==0:
+        index=1
     
 
 
@@ -175,7 +186,6 @@ def main():
     init_char()
     set_map()
     draw_map()
-
 
 
 
