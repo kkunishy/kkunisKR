@@ -53,8 +53,7 @@ class mob:
         x+=self.xy[0]
         y+=self.xy[1]
 
-        
-        if 0<=x<col and 0<=y<row:
+        if 0<=x<row and 0<=y<col:
             if map_data[y][x]>=2:
                 self.xy[1]=y
                 self.xy[0]=x
@@ -71,16 +70,17 @@ def move_char():
 
     x=char_list[0].xy[0]
     y=char_list[0].xy[1]
-
-    if map_data[y][x]==3:
-        map_data[y][x]=2
-        candy-=1
-        if candy<=8:
-            stage+=1
-            set_map()
-    
+    try:
+        if map_data[y][x]==3:
+            map_data[y][x]=2
+            candy-=1
+            if candy==0:
+                stage+=1
+                set_map()
+    except IndexError:
+        pass
     for i in char_list:
-        if i.name!="blue":
+        if i.name!="blue" and candy==0:
             if i.xy[0]==x and i.xy[1]==y:
                 stage+=1
                 set_map()
@@ -102,7 +102,7 @@ def init_char():
     
 
 def set_map():
-    global stage, map_data, candy
+    global stage, map_data, candy, index
 
     if stage==1:
         map_data = [
@@ -140,6 +140,25 @@ def set_map():
         char_list[2].xy = [7, 5]
         char_list[3].xy = [3, 5]
 
+    if stage==3:
+        map_data = [
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ],
+                                    ]
+        candy =0
+        char_list[0].xy = [13,13]
+        char_list[1].xy = [13,13]
+        char_list[2].xy = [13,13]
+        char_list[3].xy = [13,13]
+        index+=1
+        
     move_char()
         
 def draw_map():
@@ -150,12 +169,16 @@ def draw_map():
         for x in range(0,row):
                 canvas.create_image(x*60+30,y*60+30,image=img_chip[map_data[y][x]],tag = "BG")
     if index ==0:
-        canvas.create_image(350,250,image=img_title,tag="SCREEN")
+        canvas.create_image(350,250,image=img_title,tag="BG")
         
     elif index==1:
-        canvas.create_text(100,20,text="Candy:"+str(candy-1),font=fnt,fill="darkred")
-        canvas.create_text(500,20,text="Time:"+str(timer),font=fnt,fill="darkred")
-            
+        canvas.create_text(100,20,text="Candy:"+str(candy),font=fnt,fill="darkred",tag="BG")
+        canvas.create_text(500,20,text="Time:"+str(timer),font=fnt,fill="darkred",tag="BG")
+    elif index==2:
+        canvas.delete("BG")
+        canvas.create_image(350,250,image=img_end,tag="end")
+        canvas.create_
+    
     for i in char_list:
             canvas.create_image(i.xy[0]*60+30,i.xy[1]*60+30,image=i.img[i.img_num+timer%3],tag="BG")
         
@@ -260,6 +283,8 @@ img_seiuchi=[
                     ]
 
 img_title=tk.PhotoImage(file="title.png")
+
+img_end=tk.PhotoImage(file="ending.png")
 
 img_chip=[
                 tk.PhotoImage(file="chip00.png"),
