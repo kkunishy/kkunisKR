@@ -70,15 +70,14 @@ def move_char():
 
     x=char_list[0].xy[0]
     y=char_list[0].xy[1]
-    try:
-        if map_data[y][x]==3:
-            map_data[y][x]=2
-            candy-=1
-            if candy==0:
-                stage+=1
-                set_map()
-    except IndexError:
-        pass
+    
+    if map_data[y][x]==3:
+        map_data[y][x]=2
+        candy-=1
+        if candy==0:
+            stage+=1
+            set_map()
+    
     for i in char_list:
         if i.name!="blue" and candy==0:
             if i.xy[0]==x and i.xy[1]==y:
@@ -177,7 +176,7 @@ def draw_map():
     elif index==2:
         canvas.delete("BG")
         canvas.create_image(350,250,image=img_end,tag="end")
-        canvas.create_
+        
     
     for i in char_list:
             canvas.create_image(i.xy[0]*60+30,i.xy[1]*60+30,image=i.img[i.img_num+timer%3],tag="BG")
