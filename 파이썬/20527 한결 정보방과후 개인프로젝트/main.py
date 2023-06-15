@@ -9,58 +9,54 @@ colorList=["white","black"]     #[0] 하양 [1] 검정
 phase=0
 myHP=100
 enemyHP=100
-storage=["
+#storage=["
 
 
 
 def gameMenuselect1():
     global gameMenuNum
     gameMenuNum=1
-    if phase==1:
-        gameMenuLabel1["bg"]=colorList[0]
-        gameMenuLabel1["fg"]=colorList[1]
-        gameMenuLabel2["bg"]=colorList[1]
-        gameMenuLabel2["fg"]=colorList[0]
-        gameMenuLabel3["bg"]=colorList[1]
-        gameMenuLabel3["fg"]=colorList[0]
-        gameMenuLabel4["bg"]=colorList[1]
-        gameMenuLabel4["fg"]=colorList[0]
+    gameMenuLabel1["bg"]=colorList[0]
+    gameMenuLabel1["fg"]=colorList[1]
+    gameMenuLabel2["bg"]=colorList[1]
+    gameMenuLabel2["fg"]=colorList[0]
+    gameMenuLabel3["bg"]=colorList[1]
+    gameMenuLabel3["fg"]=colorList[0]
+    gameMenuLabel4["bg"]=colorList[1]
+    gameMenuLabel4["fg"]=colorList[0]
 def gameMenuselect2():
     global gameMenuNum
     gameMenuNum=2
-    if phase==1:
-        gameMenuLabel1["bg"]=colorList[1]
-        gameMenuLabel1["fg"]=colorList[0]
-        gameMenuLabel2["bg"]=colorList[0]
-        gameMenuLabel2["fg"]=colorList[1]
-        gameMenuLabel3["bg"]=colorList[1]
-        gameMenuLabel3["fg"]=colorList[0]
-        gameMenuLabel4["bg"]=colorList[1]
-        gameMenuLabel4["fg"]=colorList[0]
+    gameMenuLabel1["bg"]=colorList[1]
+    gameMenuLabel1["fg"]=colorList[0]
+    gameMenuLabel2["bg"]=colorList[0]
+    gameMenuLabel2["fg"]=colorList[1]
+    gameMenuLabel3["bg"]=colorList[1]
+    gameMenuLabel3["fg"]=colorList[0]
+    gameMenuLabel4["bg"]=colorList[1]
+    gameMenuLabel4["fg"]=colorList[0]
 def gameMenuselect3():
     global gameMenuNum
     gameMenuNum=3
-    if phase==1:
-        gameMenuLabel1["bg"]=colorList[1]
-        gameMenuLabel1["fg"]=colorList[0]
-        gameMenuLabel2["bg"]=colorList[1]
-        gameMenuLabel2["fg"]=colorList[0]
-        gameMenuLabel3["bg"]=colorList[0]
-        gameMenuLabel3["fg"]=colorList[1]
-        gameMenuLabel4["bg"]=colorList[1]
-        gameMenuLabel4["fg"]=colorList[0]
+    gameMenuLabel1["bg"]=colorList[1]
+    gameMenuLabel1["fg"]=colorList[0]
+    gameMenuLabel2["bg"]=colorList[1]
+    gameMenuLabel2["fg"]=colorList[0]
+    gameMenuLabel3["bg"]=colorList[0]
+    gameMenuLabel3["fg"]=colorList[1]
+    gameMenuLabel4["bg"]=colorList[1]
+    gameMenuLabel4["fg"]=colorList[0]
 def gameMenuselect4():
     global gameMenuNum
-    if phase==1:
-        gameMenuNum=4
-        gameMenuLabel1["bg"]=colorList[1]
-        gameMenuLabel1["fg"]=colorList[0]
-        gameMenuLabel2["bg"]=colorList[1]
-        gameMenuLabel2["fg"]=colorList[0]
-        gameMenuLabel3["bg"]=colorList[1]
-        gameMenuLabel3["fg"]=colorList[0]
-        gameMenuLabel4["bg"]=colorList[0]
-        gameMenuLabel4["fg"]=colorList[1]
+    gameMenuNum=4
+    gameMenuLabel1["bg"]=colorList[1]
+    gameMenuLabel1["fg"]=colorList[0]
+    gameMenuLabel2["bg"]=colorList[1]
+    gameMenuLabel2["fg"]=colorList[0]
+    gameMenuLabel3["bg"]=colorList[1]
+    gameMenuLabel3["fg"]=colorList[0]
+    gameMenuLabel4["bg"]=colorList[0]
+    gameMenuLabel4["fg"]=colorList[1]
 def gameMenuUnavaliable():
     gameQuestionLabel["bg"]=colorList[1]
     gameQuestionLabel["fg"]=colorList[1]
@@ -97,7 +93,7 @@ def gameMenuKeypress(e):
         gameMenuselect2()
     elif key=="Right" and gameMenuNum==3 and phase==1:
         gameMenuselect4()
-    elif key=="enter" and phase==1:
+    #elif key=="enter" and phase==1:
         if gameMenuNum==1:
             gameAttack()
         elif gameMenuNum==2:
@@ -109,7 +105,7 @@ def gameMenuKeypress(e):
     else:
         pass
 
-
+'''
 def gameAttack():
     gameMenuUnavaliable()
     canvas.create_text(
@@ -121,7 +117,7 @@ def gameFlee():
     gameMenuUnavaliable()
 #class charEnemy1():
 #class charEnemy2():
-
+'''
 
 
 def main():
