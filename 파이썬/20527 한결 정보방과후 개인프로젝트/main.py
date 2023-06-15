@@ -9,7 +9,7 @@ colorList=["white","black"]     #[0] 하양 [1] 검정
 phase=0
 myHP=100
 enemyHP=100
-storage=["
+#storage=["
 
 
 
@@ -99,17 +99,21 @@ def gameMenuKeypress(e):
         gameMenuselect4()
     elif key=="enter" and phase==1:
         if gameMenuNum==1:
-            gameAttack()
+            #gameAttack()
+            pass
         elif gameMenuNum==2:
-            gameMove()
+            #gameMove()
+            pass
         elif gameMenuNum==3:
-            gameInv()
+            #gameInv()
+            pass
         elif gameMenuNum==4:
-            gameFlee()
+            #gameFlee()
+            pass
     else:
         pass
 
-
+'''
 def gameAttack():
     gameMenuUnavaliable()
     canvas.create_text(
@@ -122,7 +126,7 @@ def gameFlee():
 #class charEnemy1():
 #class charEnemy2():
 
-
+'''
 
 def main():
     gameMenuUnavaliable()
@@ -158,10 +162,10 @@ gameStartLabel1.place(x=50,y=420)
 gameStartLabel2=tk.Label(text="Spacebar를 눌러 시작",font=fnt,bg="black",fg="white")
 gameStartLabel2.place(x=50,y=460)
 
-charMeImg=[tk.PhotoImage(file="공격1.gif"),
+charMeImg=[tk.PhotoImage(file="기본.png"),
+                tk.PhotoImage(file="공격1.gif"),
                 tk.PhotoImage(file="공격2.png"),
                 tk.PhotoImage(file="공격3.png"),
-                tk.PhotoImage(file="기본.png"),
                 tk.PhotoImage(file="섭취.png"),
                 tk.PhotoImage(file="피격.png")
                 ]
