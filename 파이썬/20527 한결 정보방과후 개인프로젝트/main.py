@@ -16,47 +16,51 @@ storage=["
 def gameMenuselect1():
     global gameMenuNum
     gameMenuNum=1
-    gameMenuLabel1["bg"]=colorList[0]
-    gameMenuLabel1["fg"]=colorList[1]
-    gameMenuLabel2["bg"]=colorList[1]
-    gameMenuLabel2["fg"]=colorList[0]
-    gameMenuLabel3["bg"]=colorList[1]
-    gameMenuLabel3["fg"]=colorList[0]
-    gameMenuLabel4["bg"]=colorList[1]
-    gameMenuLabel4["fg"]=colorList[0]
+    if phase==1:
+        gameMenuLabel1["bg"]=colorList[0]
+        gameMenuLabel1["fg"]=colorList[1]
+        gameMenuLabel2["bg"]=colorList[1]
+        gameMenuLabel2["fg"]=colorList[0]
+        gameMenuLabel3["bg"]=colorList[1]
+        gameMenuLabel3["fg"]=colorList[0]
+        gameMenuLabel4["bg"]=colorList[1]
+        gameMenuLabel4["fg"]=colorList[0]
 def gameMenuselect2():
     global gameMenuNum
     gameMenuNum=2
-    gameMenuLabel1["bg"]=colorList[1]
-    gameMenuLabel1["fg"]=colorList[0]
-    gameMenuLabel2["bg"]=colorList[0]
-    gameMenuLabel2["fg"]=colorList[1]
-    gameMenuLabel3["bg"]=colorList[1]
-    gameMenuLabel3["fg"]=colorList[0]
-    gameMenuLabel4["bg"]=colorList[1]
-    gameMenuLabel4["fg"]=colorList[0]
+    if phase==1:
+        gameMenuLabel1["bg"]=colorList[1]
+        gameMenuLabel1["fg"]=colorList[0]
+        gameMenuLabel2["bg"]=colorList[0]
+        gameMenuLabel2["fg"]=colorList[1]
+        gameMenuLabel3["bg"]=colorList[1]
+        gameMenuLabel3["fg"]=colorList[0]
+        gameMenuLabel4["bg"]=colorList[1]
+        gameMenuLabel4["fg"]=colorList[0]
 def gameMenuselect3():
     global gameMenuNum
     gameMenuNum=3
-    gameMenuLabel1["bg"]=colorList[1]
-    gameMenuLabel1["fg"]=colorList[0]
-    gameMenuLabel2["bg"]=colorList[1]
-    gameMenuLabel2["fg"]=colorList[0]
-    gameMenuLabel3["bg"]=colorList[0]
-    gameMenuLabel3["fg"]=colorList[1]
-    gameMenuLabel4["bg"]=colorList[1]
-    gameMenuLabel4["fg"]=colorList[0]
+    if phase==1:
+        gameMenuLabel1["bg"]=colorList[1]
+        gameMenuLabel1["fg"]=colorList[0]
+        gameMenuLabel2["bg"]=colorList[1]
+        gameMenuLabel2["fg"]=colorList[0]
+        gameMenuLabel3["bg"]=colorList[0]
+        gameMenuLabel3["fg"]=colorList[1]
+        gameMenuLabel4["bg"]=colorList[1]
+        gameMenuLabel4["fg"]=colorList[0]
 def gameMenuselect4():
     global gameMenuNum
-    gameMenuNum=4
-    gameMenuLabel1["bg"]=colorList[1]
-    gameMenuLabel1["fg"]=colorList[0]
-    gameMenuLabel2["bg"]=colorList[1]
-    gameMenuLabel2["fg"]=colorList[0]
-    gameMenuLabel3["bg"]=colorList[1]
-    gameMenuLabel3["fg"]=colorList[0]
-    gameMenuLabel4["bg"]=colorList[0]
-    gameMenuLabel4["fg"]=colorList[1]
+    if phase==1:
+        gameMenuNum=4
+        gameMenuLabel1["bg"]=colorList[1]
+        gameMenuLabel1["fg"]=colorList[0]
+        gameMenuLabel2["bg"]=colorList[1]
+        gameMenuLabel2["fg"]=colorList[0]
+        gameMenuLabel3["bg"]=colorList[1]
+        gameMenuLabel3["fg"]=colorList[0]
+        gameMenuLabel4["bg"]=colorList[0]
+        gameMenuLabel4["fg"]=colorList[1]
 def gameMenuUnavaliable():
     gameQuestionLabel["bg"]=colorList[1]
     gameQuestionLabel["fg"]=colorList[1]
