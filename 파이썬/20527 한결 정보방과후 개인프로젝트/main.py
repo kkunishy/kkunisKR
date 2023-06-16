@@ -9,13 +9,21 @@ colorList=["white","black"]     #[0] 하양 [1] 검정
 phase=0
 myHP=100
 enemyHP=100
-#storage=["
+attackList=["케오는 ",
+                    "적에게 마구때리기를 시전하여\n",
+                    "적에게 돌진하여\n",
+                  "적에게 창을 던져\n",
+                  "의 데미지를 상대방에게 주었다!"]
+storageList=["오렌지","사과","먹다남은 육포","복숭아"]
 
 
 
 def gameMenuselect1():
     global gameMenuNum
     gameMenuNum=1
+    gameTextLabel["text"]="무엇을 하시겠습니까?"
+    canvas.delete("char")
+    canvas.create_image(200,200,image=charMeImg[0],tag="char")
     gameMenuLabel1["bg"]=colorList[0]
     gameMenuLabel1["fg"]=colorList[1]
     gameMenuLabel2["bg"]=colorList[1]
@@ -73,8 +81,8 @@ def gameMenuKeypress(e):
     key=e.keysym
     if phase==0 and key=="space":
         phase+=1
-        gameStartLabel1["text"]=""
-        gameStartLabel2["text"]=""
+        gameTextLabel["text"]=""
+        gameTextLabelSub["text"]=""
         gameQuestionLabel["fg"]=colorList[0]
         gameMenuselect1()
     elif key=="Down" and gameMenuNum==1 and phase==1:
@@ -93,10 +101,10 @@ def gameMenuKeypress(e):
         gameMenuselect2()
     elif key=="Right" and gameMenuNum==3 and phase==1:
         gameMenuselect4()
-    #elif key=="enter" and phase==1:
+    elif key=="Return" and phase==1:
         if gameMenuNum==1:
-            #gameAttack()
-            pass
+            gameAttack()
+            phase=3
         elif gameMenuNum==2:
             #gameMove()
             pass
@@ -106,13 +114,65 @@ def gameMenuKeypress(e):
         elif gameMenuNum==4:
             #gameFlee()
             pass
+    elif key=="Return" and phase==3:
+        gameTextLabel["text"]=""
+        phase=4
+        gameEnemyAttack()
+    elif key=="Return" and phase==4:
+        gameTextLabel["text"]=""
+        phase=1
+        gameMenuselect1()
+    else:
+        pass
+    
+def gameEnd():
+    global phase
+    canvas.delete("enemy")
+    gameTextLabel["text"]="축하한다! 당신은 승리했다!"
+    
+def gameOver():
+    global phase
+    canvas.delete("char")
+    gameTextLabel["text"]="이런... 결국 져버리고 말았다..."
+
+def gameAttack():
+    global attackList, enemyHP
+    rdNum=rd.randint(1,3)
+    rdDamage=rd.randint(20,40)
+    canvas.delete("char")
+    
+    gameMenuUnavaliable()
+    gameTextLabel["text"]=attackList[0]+attackList[rdNum]+str(rdDamage)+attackList[4]
+    enemyHP-=rdDamage
+    enemyHPLabel["text"]=enemyHP
+    if rdNum==1:
+        canvas.create_image(200,200,image=charMeImg[1],tag="char")
+    elif rdNum==2:
+        canvas.create_image(200,200,image=charMeImg[2],tag="char")
+    elif rdNum==3:
+        canvas.create_image(200,200,image=charMeImg[3],tag="char")
+    elif enemyHP<0:
+        phase=2
+        gameEnd()
     else:
         pass
 
+def gameEnemyAttack():
+    global myHP
+    rdNum=rd.randint(1,3)
+    rdDamage=rd.randint(20,40)
+    canvas.delete("char")
 
-def gameAttack():
-    gameMenuUnavaliable()
-    canvas.create_text(
+
+    gameTextLabel["text"]="리유니온 병사가 공격하여\n"+str(rdDamage)+" 만큼의 데미지를 입혔다!"
+    myHP-=rdDamage
+    myHPLabel["text"]=myHP
+    canvas.create_image(200,200,image=charMeImg[5],tag="char")
+    if myHP<0:
+        phase=2
+        gameOver()
+    
+'''
 def gameMove():
     gameMenuUnavaliable()
 def gameInv():
@@ -121,10 +181,12 @@ def gameFlee():
     gameMenuUnavaliable()
 #class charEnemy1():
 #class charEnemy2():
-
-
+'''
 def main():
     gameMenuUnavaliable()
+    canvas.create_image(200,200,image=charMeImg[0],tag="char")
+    canvas.create_image(550,200,image=charEnemyImg,tag="enemy")
+    
 
     
 root=tk.Tk()
@@ -152,17 +214,23 @@ gameMenuLabel3.place(x=400,y=460)
 gameMenuLabel4=tk.Label(text=gameMenuList[3],font=fnt,fg="white",bg="black")
 gameMenuLabel4.place(x=550,y=460)
 
-gameStartLabel1=tk.Label(text="앗! 야생의 리유니온 병사들이 나타났다!",font=fnt2,bg="black",fg="white")
-gameStartLabel1.place(x=50,y=420)
-gameStartLabel2=tk.Label(text="Spacebar를 눌러 시작",font=fnt,bg="black",fg="white")
-gameStartLabel2.place(x=50,y=460)
+gameTextLabel=tk.Label(text="앗! 야생의 리유니온 병사들이 나타났다!",font=fnt2,bg="black",fg="white")
+gameTextLabel.place(x=50,y=420)
+gameTextLabelSub=tk.Label(text="Spacebar를 눌러 시작",font=fnt,bg="black",fg="white")
+gameTextLabelSub.place(x=50,y=460)
 
-charMeImg=[tk.PhotoImage(file="기본.png"),
-                tk.PhotoImage(file="공격1.gif"),
-                tk.PhotoImage(file="공격2.png"),
-                tk.PhotoImage(file="공격3.png"),
-                tk.PhotoImage(file="섭취.png"),
-                tk.PhotoImage(file="피격.png")
+myHPLabel=tk.Label(text=myHP,font=fnt,fg="white",bg="black")
+myHPLabel.place(x=20,y=20)
+enemyHPLabel=tk.Label(text=enemyHP,font=fnt,fg="white",bg="black")
+enemyHPLabel.place(x=20,y=70)
+
+charEnemyImg=tk.PhotoImage(file="리유니온.png")         
+charMeImg=[tk.PhotoImage(file="기본.png"),                    #0
+                tk.PhotoImage(file="공격1.gif"),                          #1
+                tk.PhotoImage(file="공격2.png"),                      #2
+                tk.PhotoImage(file="공격3.png"),                      #3
+                tk.PhotoImage(file="섭취.png"),                           #4
+                tk.PhotoImage(file="피격.png")                        #5
                 ]
 
 main()
