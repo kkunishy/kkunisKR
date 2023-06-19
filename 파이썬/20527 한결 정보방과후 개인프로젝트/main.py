@@ -1,14 +1,18 @@
 import tkinter as tk
 import random as rd
+import sys
 
-gameMenuList=["*공격","*행동","*창고","*도망"]
+gameMenuListTopic=0
+gameMenuList=[["*공격","*행동","*창고","*도망"],["안기","대화하기","노려보기","농담하기"]]
 gameMenuNum=0
+
 fnt = ("맑은 고딕 Semilight", 15)
 fnt2 = ("맑은 고딕 Semilight", 20)
 colorList=["white","black"]     #[0] 하양 [1] 검정
 phase=0
 myHP=100
 enemyHP=100
+enemyCarelessRate=1
 attackList=["케오는 ",
                     "적에게 마구때리기를 시전하여\n",
                     "적에게 돌진하여\n",
@@ -19,7 +23,7 @@ storageList=["오렌지","사과","먹다남은 육포","복숭아"]
 
 
 def gameMenuselect1():
-    global gameMenuNum
+    global gameMenuNum, phase
     gameMenuNum=1
     gameTextLabel["text"]="무엇을 하시겠습니까?"
     canvas.delete("char")
@@ -32,6 +36,7 @@ def gameMenuselect1():
     gameMenuLabel3["fg"]=colorList[0]
     gameMenuLabel4["bg"]=colorList[1]
     gameMenuLabel4["fg"]=colorList[0]
+    print(phase)
 def gameMenuselect2():
     global gameMenuNum
     gameMenuNum=2
@@ -122,27 +127,28 @@ def gameMenuKeypress(e):
         gameTextLabel["text"]=""
         phase=1
         gameMenuselect1()
-    else:
-        pass
+
     
 def gameEnd():
     global phase
     canvas.delete("enemy")
     gameTextLabel["text"]="축하한다! 당신은 승리했다!"
-    
+    phase=2
+    sys.exit()
 def gameOver():
     global phase
     canvas.delete("char")
     gameTextLabel["text"]="이런... 결국 져버리고 말았다..."
-
+    phase=2
+    sys.exit()
 def gameAttack():
-    global attackList, enemyHP
+    global attackList, enemyHP, phase, enemyCarelessRate
     rdNum=rd.randint(1,3)
     rdDamage=rd.randint(20,40)
     canvas.delete("char")
     
     gameMenuUnavaliable()
-    gameTextLabel["text"]=attackList[0]+attackList[rdNum]+str(rdDamage)+attackList[4]
+    gameTextLabel["text"]=attackList[0]+attackList[rdNum]+str(rdDamage*enemyCarelessRate)+attackList[4]
     enemyHP-=rdDamage
     enemyHPLabel["text"]=enemyHP
     if rdNum==1:
@@ -151,27 +157,21 @@ def gameAttack():
         canvas.create_image(200,200,image=charMeImg[2],tag="char")
     elif rdNum==3:
         canvas.create_image(200,200,image=charMeImg[3],tag="char")
-    elif enemyHP<0:
-        phase=2
+    if enemyHP<0:
         gameEnd()
-    else:
-        pass
-
 def gameEnemyAttack():
-    global myHP
+    global myHP, phase
     rdNum=rd.randint(1,3)
     rdDamage=rd.randint(20,40)
     canvas.delete("char")
-
 
     gameTextLabel["text"]="리유니온 병사가 공격하여\n"+str(rdDamage)+" 만큼의 데미지를 입혔다!"
     myHP-=rdDamage
     myHPLabel["text"]=myHP
     canvas.create_image(200,200,image=charMeImg[5],tag="char")
     if myHP<0:
-        phase=2
         gameOver()
-    
+
 '''
 def gameMove():
     gameMenuUnavaliable()
@@ -205,13 +205,13 @@ canvas.create_rectangle(0,350,720,360,fill="white")
 
 gameQuestionLabel=tk.Label(text="무엇을 하시겠습니까?",font=fnt2,bg="black",fg="white")
 gameQuestionLabel.place(x=50,y=420)
-gameMenuLabel1=tk.Label(text=gameMenuList[0],font=fnt,fg="white",bg="black")
+gameMenuLabel1=tk.Label(text=gameMenuList[gameMenuListTopic][0],font=fnt,fg="white",bg="black")
 gameMenuLabel1.place(x=400,y=400)
-gameMenuLabel2=tk.Label(text=gameMenuList[1],font=fnt,fg="white",bg="black")
+gameMenuLabel2=tk.Label(text=gameMenuList[gameMenuListTopic][1],font=fnt,fg="white",bg="black")
 gameMenuLabel2.place(x=550,y=400)
-gameMenuLabel3=tk.Label(text=gameMenuList[2],font=fnt,fg="white",bg="black")
+gameMenuLabel3=tk.Label(text=gameMenuList[gameMenuListTopic][2],font=fnt,fg="white",bg="black")
 gameMenuLabel3.place(x=400,y=460)
-gameMenuLabel4=tk.Label(text=gameMenuList[3],font=fnt,fg="white",bg="black")
+gameMenuLabel4=tk.Label(text=gameMenuList[gameMenuListTopic][3],font=fnt,fg="white",bg="black")
 gameMenuLabel4.place(x=550,y=460)
 
 gameTextLabel=tk.Label(text="앗! 야생의 리유니온 병사들이 나타났다!",font=fnt2,bg="black",fg="white")
