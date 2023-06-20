@@ -28,7 +28,7 @@ storageList=["오렌지","사과","먹다남은육포","복숭아"]
 
 
 def gameMenuselect1():
-    global gameMenuNum, phase, dialougeNum
+    global gameMenuNum, phase, dialougeNum, moveListNum
     gameMenuNum=1
     dialougeNum=0
     gameTextLabel["text"]="무엇을 하시겠습니까?"
@@ -42,7 +42,6 @@ def gameMenuselect1():
     gameMenuLabel3["fg"]=colorList[0]
     gameMenuLabel4["bg"]=colorList[1]
     gameMenuLabel4["fg"]=colorList[0]
-    print(phase)
 def gameMenuselect2():
     global gameMenuNum
     gameMenuNum=2
@@ -91,13 +90,13 @@ def gameMenuKeypress(e):
     global phase, colorList, moveListNum, dialougeNum
     key=e.keysym
     if phase==0 and key=="space":
-        phase+=1
+        phase=1
         gameTextLabel["text"]=""
         gameTextLabelSub["text"]=""
         gameQuestionLabel["fg"]=colorList[0]
         gameMenuselect1()
 
-    elif phase==1 or phase==5:
+    elif phase==1 or phase==6:
         if key=="Down" and gameMenuNum==1:
             gameMenuselect3()
         elif key=="Down" and gameMenuNum==2:
@@ -114,12 +113,14 @@ def gameMenuKeypress(e):
             gameMenuselect2()
         elif key=="Right" and gameMenuNum==3:
             gameMenuselect4()
+            
         elif key=="Return" and phase==1:
             if gameMenuNum==1:
                 gameAttack()
                 phase=3
             elif gameMenuNum==2:
                 gameMove()
+                phase=6
             elif gameMenuNum==3:
                 #gameInv()
                 print("미구현기능")
@@ -128,19 +129,19 @@ def gameMenuKeypress(e):
                 #gameFlee()
                 print("미구현기능")
                 pass
-        elif key=="Return" and phase==5:
+        elif key=="Return" and phase==6:
             if gameMenuNum==1:
                 moveListNum=0
-                gameMoveReact()
+                gameMove()
             elif gameMenuNum==2:
                 moveListNum=1
-                gameMoveReact()
+                gameMove()
             elif gameMenuNum==3:
                 moveListNum=2
-                gameMoveReact()
+                gameMove()
             elif gameMenuNum==4:
                 moveListNum=3
-                gameMoveReact()
+                gameMove()
             
 
 
@@ -157,6 +158,7 @@ def gameMenuKeypress(e):
         gameMenuselect1()
     elif key=="Return" and phase==6:
         dialougeNum+=1
+        print(dialougeNum)
     
 def gameEnd():
     global phase
@@ -202,12 +204,18 @@ def gameEnemyAttack():
         gameOver()
 
 def gameMove():
-    gameMenuUnavaliable()
+    global phase, gameMenuListTopic
+    print(moveListNum)
     gameMenuListTopic=1
-    phase=5
+    phase=6
     gameMenuselect1()
+def gameMoveReset():
+    global dialougeNum, gameMenuNum
+    dialougeNum=0
+    gameMenuNum=0
+    gameEnemyAttack()
 def gameMoveReact():
-    global moveListNum, enemyCarelessRate, dialougeNum
+    global moveListNum, enemyCarelessRate, dialougeNum, phase
     phase=6
     
     dialougeChance="상대방이 입는 데미지가 증가한다!"
@@ -216,54 +224,63 @@ def gameMoveReact():
     dialouge3=["당신은 살기를 뿜으며 병사를 노려봤다...","그는 잠시 주춤하는 듯 싶더니, 다시 정신을 차렸다.","병사가 쫄아버린 것 같다..."]
     dialouge4=["당신은 병사에게 차가 놀라는 기름이 뭔지 물었다.","병사는 잠시 고민하는 것 같다.",'"카놀라유!"',"...","병사가 화나버렸다..."]
     
-    if moveListNum=0:       #안기
+    if moveListNum==0:       #안기
         canvas.delete("char")
         canvas.create_image(200,200,image=charMeImg[6],tag="char")
-        if dialougeNum=1:
-            gameTextLabel["text"]=
-        if dialougeNum=1:
-            gameTextLabel["text"]=
-        if dialougeNum=1:
-            gameTextLabel["text"]=
+        if dialougeNum==1:
+            gameTextLabel["text"]=dialouge1[0]
+            print("asdf")
+        elif dialougeNum==2:
+            gameTextLabel["text"]=dialouge1[1]
+        elif dialougeNum==3:
+            gameTextLabel["text"]=dialougeChance
+            enemyCarelessRate+=1
+        elif dialougeNum==4:
+            gameMoveReset()
             
-    elif moveListNum=1:     #대화하기
+    elif moveListNum==1:     #대화하기
         canvas.delete("char")
         canvas.create_image(200,200,image=charMeImg[7],tag="char")
-        if dialougeNum=1:
-            gameTextLabel["text"]=
-        if dialougeNum=1:
-            gameTextLabel["text"]=
+        if dialougeNum==1:
+            gameTextLabel["text"]=dialouge2[0]
+            print("asdf")
+        elif dialougeNum==2:
+            gameTextLabel["text"]=dialouge2[1]
+        elif dialougeNum==3:
+            gameMoveReset()
             
-    elif moveListNum=2:     #노려보기
+    elif moveListNum==2:     #노려보기
         canvas.delete("char")
         canvas.create_image(200,200,image=charMeImg[8],tag="char")
-        if dialougeNum=1:
-            gameTextLabel["text"]=
-        if dialougeNum=1:
-            gameTextLabel["text"]=
+        if dialougeNum==1:
+            gameTextLabel["text"]=dialouge3[0]
+            print("asdf")
+        elif dialougeNum==2:
             rdNum=rd.randint(0,1)
             if rdNum==0:
-                gameTextLabel["text"]=
+                gameTextLabel["text"]=dialouge3[1]
             elif rdNum==1:
-                gameTextLabel["text"]=
+                gameTextLabel["text"]=dialouge3[2]+"\n"+dialougeChance
+                enemyCarelessRate+=1
+        elif dialougeNum==3:
+            gameMoveReset()
             
-    elif moveListNum=3:     #농담하기
-        if dialougeNum=1:
-            gameTextLabel["text"]=
-        if dialougeNum=2:
-            gameTextLabel["text"]=
-        if dialougeNum=3:
-            gameTextLabel["text"]=
-        if dialougeNum=4:
-            gameTextLabel["text"]=
-        if dialougeNum=5:
-            gameTextLabel["text"]=
-        if dialougeNum=6:
-            gameTextLabel["text"]=
+    elif moveListNum==3:     #농담하기
         canvas.delete("char")
         canvas.create_image(200,200,image=charMeImg[9],tag="char")
-
-
+        if dialougeNum==1:
+            gameTextLabel["text"]=dialouge4[0]
+            print("asdf")
+        elif dialougeNum==2:
+            gameTextLabel["text"]=dialouge4[1]
+        elif dialougeNum==3:
+            gameTextLabel["text"]=dialouge4[2]
+        elif dialougeNum==4:
+            gameTextLabel["text"]=dialouge4[3]
+        elif dialougeNum==5:
+            gameTextLabel["text"]=dialouge4[4]
+        elif dialougeNum==6:
+            gameMoveReset()
 
 
     
@@ -327,7 +344,6 @@ charMeImg=[tk.PhotoImage(file="기본.png"),                    #0
 
 
 
-                ]
 
 main()
 root.mainloop()
