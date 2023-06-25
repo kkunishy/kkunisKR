@@ -12,7 +12,7 @@ fnt = ("맑은 고딕 Semilight", 15)
 fnt2 = ("맑은 고딕 Semilight", 20)
 phase=0
 
-myHP=100
+myHP=150
 enemyHP=100
 enemyCarelessRate=1
 
@@ -33,6 +33,10 @@ def gameMenuselect1():
     dialougeNum=0
     gameTextLabel["text"]="무엇을 하시겠습니까?"
     canvas.delete("char")
+    gameMenuLabel1["text"]=gameMenuList[gameMenuListTopic][0]
+    gameMenuLabel2["text"]=gameMenuList[gameMenuListTopic][1]
+    gameMenuLabel3["text"]=gameMenuList[gameMenuListTopic][2]
+    gameMenuLabel4["text"]=gameMenuList[gameMenuListTopic][3]
     canvas.create_image(200,200,image=charMeImg[0],tag="char")
     gameMenuLabel1["bg"]=colorList[0]
     gameMenuLabel1["fg"]=colorList[1]
@@ -95,7 +99,6 @@ def gameMenuKeypress(e):
         gameTextLabelSub["text"]=""
         gameQuestionLabel["fg"]=colorList[0]
         gameMenuselect1()
-
     elif phase==1 or phase==6:
         if key=="Down" and gameMenuNum==1:
             gameMenuselect3()
@@ -129,24 +132,25 @@ def gameMenuKeypress(e):
                 #gameFlee()
                 print("미구현기능")
                 pass
+            
         elif key=="Return" and phase==6:
             if gameMenuNum==1:
                 moveListNum=0
-                gameMove()
+                phase=7
+                gameMoveReact()
             elif gameMenuNum==2:
                 moveListNum=1
-                gameMove()
+                phase=7
+                gameMoveReact()
             elif gameMenuNum==3:
                 moveListNum=2
-                gameMove()
+                phase=7
+                gameMoveReact()
             elif gameMenuNum==4:
                 moveListNum=3
-                gameMove()
-            
-
-
-
-
+                phase=7
+                gameMoveReact()
+        
             
     elif key=="Return" and phase==3:
         gameTextLabel["text"]=""
@@ -156,9 +160,10 @@ def gameMenuKeypress(e):
         gameTextLabel["text"]=""
         phase=1
         gameMenuselect1()
-    elif key=="Return" and phase==6:
+    elif key=="Return" and phase==7:
         dialougeNum+=1
         print(dialougeNum)
+        gameMoveReact()
     
 def gameEnd():
     global phase
@@ -210,13 +215,17 @@ def gameMove():
     phase=6
     gameMenuselect1()
 def gameMoveReset():
-    global dialougeNum, gameMenuNum
+    global dialougeNum, gameMenuNum, gameMenuListTopic, phase
     dialougeNum=0
     gameMenuNum=0
+    phase=4
+    gameMenuListTopic=0
     gameEnemyAttack()
+    
 def gameMoveReact():
-    global moveListNum, enemyCarelessRate, dialougeNum, phase
-    phase=6
+    global moveListNum, enemyCarelessRate, dialougeNum
+    gameMenuUnavaliable()
+    print("asfadsfdsafsad")
     
     dialougeChance="상대방이 입는 데미지가 증가한다!"
     dialouge1=["당신은 병사를 안았다...","깜짝 놀란 그는 방심하는 듯 하다..."]
