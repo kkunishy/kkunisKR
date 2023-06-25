@@ -1,4 +1,3 @@
-
 import tkinter as tk
 import random as rd
 import sys
@@ -12,9 +11,10 @@ fnt = ("맑은 고딕 Semilight", 15)
 fnt2 = ("맑은 고딕 Semilight", 20)
 phase=0
 
-myHP=150
+myHP=135
 enemyHP=100
 enemyCarelessRate=1
+rdJokeNum=0
 
 moveListNum=0
 dialougeNum=0
@@ -91,7 +91,7 @@ def gameMenuUnavaliable():
     gameMenuLabel4["bg"]=colorList[1]
     gameMenuLabel4["fg"]=colorList[1]
 def gameMenuKeypress(e):
-    global phase, colorList, moveListNum, dialougeNum
+    global phase, colorList, moveListNum, dialougeNum, rdJokeNum
     key=e.keysym
     if phase==0 and key=="space":
         phase=1
@@ -99,6 +99,7 @@ def gameMenuKeypress(e):
         gameTextLabelSub["text"]=""
         gameQuestionLabel["fg"]=colorList[0]
         gameMenuselect1()
+        
     elif phase==1 or phase==6:
         if key=="Down" and gameMenuNum==1:
             gameMenuselect3()
@@ -129,9 +130,7 @@ def gameMenuKeypress(e):
                 print("미구현기능")
                 pass
             elif gameMenuNum==4:
-                #gameFlee()
-                print("미구현기능")
-                pass
+                gameFlee()
             
         elif key=="Return" and phase==6:
             if gameMenuNum==1:
@@ -149,6 +148,7 @@ def gameMenuKeypress(e):
             elif gameMenuNum==4:
                 moveListNum=3
                 phase=7
+                rdJokeNum=rd.randint(0,1)
                 gameMoveReact()
         
             
@@ -162,31 +162,33 @@ def gameMenuKeypress(e):
         gameMenuselect1()
     elif key=="Return" and phase==7:
         dialougeNum+=1
-        print(dialougeNum)
         gameMoveReact()
     
 def gameEnd():
     global phase
     canvas.delete("enemy")
     gameTextLabel["text"]="축하한다! 당신은 승리했다!"
+    enemyHPLabel["text"]=""
     phase=2
     sys.exit()
 def gameOver():
     global phase
     canvas.delete("char")
     gameTextLabel["text"]="이런... 결국 져버리고 말았다..."
+    myHPLabel["text"]=""
     phase=2
     sys.exit()
 def gameAttack():
     global attackList, enemyHP, phase, enemyCarelessRate
     rdNum=rd.randint(1,3)
     rdDamage=rd.randint(20,40)
+    addedDamage=rdDamage*enemyCarelessRate
     canvas.delete("char")
     
     gameMenuUnavaliable()
-    gameTextLabel["text"]=attackList[0]+attackList[rdNum]+str(rdDamage*enemyCarelessRate)+attackList[4]
-    enemyHP-=rdDamage
-    enemyHPLabel["text"]=enemyHP
+    gameTextLabel["text"]=attackList[0]+attackList[rdNum]+str(addedDamage)+attackList[4]
+    enemyHP-=addedDamage
+    enemyHPLabel["text"]="적 HP: "+str(enemyHP)
     if rdNum==1:
         canvas.create_image(200,200,image=charMeImg[1],tag="char")
     elif rdNum==2:
@@ -203,14 +205,13 @@ def gameEnemyAttack():
 
     gameTextLabel["text"]="리유니온 병사가 공격하여\n"+str(rdDamage)+" 만큼의 데미지를 입혔다!"
     myHP-=rdDamage
-    myHPLabel["text"]=myHP
+    myHPLabel["text"]="내 HP: "+str(myHP)
     canvas.create_image(200,200,image=charMeImg[5],tag="char")
     if myHP<0:
         gameOver()
 
 def gameMove():
     global phase, gameMenuListTopic
-    print(moveListNum)
     gameMenuListTopic=1
     phase=6
     gameMenuselect1()
@@ -221,24 +222,26 @@ def gameMoveReset():
     phase=4
     gameMenuListTopic=0
     gameEnemyAttack()
-    
 def gameMoveReact():
-    global moveListNum, enemyCarelessRate, dialougeNum
+    global moveListNum, enemyCarelessRate, dialougeNum, rdJokeNum
     gameMenuUnavaliable()
-    print("asfadsfdsafsad")
     
     dialougeChance="상대방이 입는 데미지가 증가한다!"
     dialouge1=["당신은 병사를 안았다...","깜짝 놀란 그는 방심하는 듯 하다..."]
     dialouge2=["당신은 병사와 대화를 시도했다...","이런, 그는 다른 언어를 쓰는 듯 하다."]
     dialouge3=["당신은 살기를 뿜으며 병사를 노려봤다...","그는 잠시 주춤하는 듯 싶더니, 다시 정신을 차렸다.","병사가 쫄아버린 것 같다..."]
-    dialouge4=["당신은 병사에게 차가 놀라는 기름이 뭔지 물었다.","병사는 잠시 고민하는 것 같다.",'"카놀라유!"',"...","병사가 화나버렸다..."]
-    
+    dialouge4=[
+                    ["당신은 병사에게 차가 놀라는 기름이 뭔지 물었다.","병사는 잠시 고민하는 것 같다.",'"카놀라유!"',"...","병사가 화나버렸다..."],
+                    ["당신은 병사에게 현재 태어나지 않은게 뭔지 물었다.","병사는 잠시 고민하는 것 같다.","니 여친.","...","이런, 병사의 정곡을 찔러서 화가 난 것 같다..."]
+
+            ]
+
+ 
     if moveListNum==0:       #안기
         canvas.delete("char")
         canvas.create_image(200,200,image=charMeImg[6],tag="char")
         if dialougeNum==1:
             gameTextLabel["text"]=dialouge1[0]
-            print("asdf")
         elif dialougeNum==2:
             gameTextLabel["text"]=dialouge1[1]
         elif dialougeNum==3:
@@ -252,7 +255,6 @@ def gameMoveReact():
         canvas.create_image(200,200,image=charMeImg[7],tag="char")
         if dialougeNum==1:
             gameTextLabel["text"]=dialouge2[0]
-            print("asdf")
         elif dialougeNum==2:
             gameTextLabel["text"]=dialouge2[1]
         elif dialougeNum==3:
@@ -263,7 +265,6 @@ def gameMoveReact():
         canvas.create_image(200,200,image=charMeImg[8],tag="char")
         if dialougeNum==1:
             gameTextLabel["text"]=dialouge3[0]
-            print("asdf")
         elif dialougeNum==2:
             rdNum=rd.randint(0,1)
             if rdNum==0:
@@ -274,23 +275,34 @@ def gameMoveReact():
         elif dialougeNum==3:
             gameMoveReset()
             
-    elif moveListNum==3:     #농담하기
+    elif moveListNum==3:     #농담하기/Joking
         canvas.delete("char")
         canvas.create_image(200,200,image=charMeImg[9],tag="char")
+        print(rdJokeNum)
+        
         if dialougeNum==1:
-            gameTextLabel["text"]=dialouge4[0]
-            print("asdf")
+            gameTextLabel["text"]=dialouge4[rdJokeNum][0]
         elif dialougeNum==2:
-            gameTextLabel["text"]=dialouge4[1]
+            gameTextLabel["text"]=dialouge4[rdJokeNum][1]
         elif dialougeNum==3:
-            gameTextLabel["text"]=dialouge4[2]
+            gameTextLabel["text"]=dialouge4[rdJokeNum][2]
         elif dialougeNum==4:
-            gameTextLabel["text"]=dialouge4[3]
+            gameTextLabel["text"]=dialouge4[rdJokeNum][3]
         elif dialougeNum==5:
-            gameTextLabel["text"]=dialouge4[4]
+            gameTextLabel["text"]=dialouge4[rdJokeNum][4]
         elif dialougeNum==6:
             gameMoveReset()
 
+
+#def gameInv():
+def gameFlee():
+    gameMenuUnavaliable()
+    canvas.delete("char")
+    gameTextLabel["text"]="쫄아서 튀어버렸다!"
+    myHPLabel["text"]=""
+    enemyHPLabel["text"]=""
+    canvas.create_text(520,265,text="???",font=fnt)
+    sys.exit()
 
     
 def main():
@@ -330,17 +342,17 @@ gameTextLabel.place(x=50,y=420)
 gameTextLabelSub=tk.Label(text="Spacebar를 눌러 시작",font=fnt,bg="black",fg="white")
 gameTextLabelSub.place(x=50,y=460)
 
-myHPLabel=tk.Label(text=myHP,font=fnt,fg="white",bg="black")
-myHPLabel.place(x=20,y=20)
-enemyHPLabel=tk.Label(text=enemyHP,font=fnt,fg="white",bg="black")
-enemyHPLabel.place(x=20,y=70)
+myHPLabel=tk.Label(text="내 HP: "+str(myHP),font=fnt,fg="white",bg="black")
+myHPLabel.place(x=150,y=285)
+enemyHPLabel=tk.Label(text="적 HP: "+str(enemyHP),font=fnt,fg="white",bg="black")
+enemyHPLabel.place(x=500,y=285)
 
 charEnemyImg=tk.PhotoImage(file="리유니온.png")         
 charMeImg=[tk.PhotoImage(file="기본.png"),                    #0
-                tk.PhotoImage(file="공격1.gif"),                          #1
+                tk.PhotoImage(file="공격1.gif"),                         #1
                 tk.PhotoImage(file="공격2.png"),                      #2
                 tk.PhotoImage(file="공격3.png"),                      #3
-                tk.PhotoImage(file="섭취.png"),                           #4
+                tk.PhotoImage(file="섭취.png"),                        #4
                 tk.PhotoImage(file="피격.png"),                        #5
                 tk.PhotoImage(file="안기.png"),                        #6
                 tk.PhotoImage(file="대화하기.png"),                 #7
