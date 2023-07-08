@@ -79,7 +79,7 @@ print("r;",r)
 print("R;",R)
 
 # 예측
-for i in range(0,p):
+for j in range(0,p):
     at = int(input("test a;"))
     for i in range(1,k):
         print(alphabet[i],";", average_value[i]+(at-average_value[0])*sum(R[i-1])/5)
