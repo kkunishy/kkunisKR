@@ -7,6 +7,8 @@ import pygame.display
 pg.init()
 pg.display.set_caption("그림 띄우기")
 screen=pg.display.set_mode((960,720))
+#이미지 링크
+img_ceobe=pg.image.load("케오베.png")
 #진행
 running=True
 
@@ -21,6 +23,7 @@ while running:
             if event.key==pg.K_F2 or event.key==pg.K_SPACE:
                 screen=pg.display.set_mode((960,720),pg.FULLSCREEN)
                 screen.fill((180,200,100))
+        screen.blit(img_ceobe,[200,200])
         pygame.display.update()
 pg.quit()
 sys.exit()
