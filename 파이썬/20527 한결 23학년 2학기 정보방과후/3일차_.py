@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-
+import random as rd
 import pygame.display
 
 #시작
@@ -23,7 +23,11 @@ while running:
             if event.key==pg.K_F2 or event.key==pg.K_SPACE:
                 screen=pg.display.set_mode((960,720),pg.FULLSCREEN)
                 screen.fill((180,200,100))
-        screen.blit(img_ceobe,[200,200])
+            if event.key==pg.K_SPACE:
+                screen.fill((0,0,0))
+        screen.blit(img_ceobe,[350,200])
         pygame.display.update()
+        for i in range(0,100):
+            screen.fill(0,rd.randrange(0,255),rd.randrange(0,255))
 pg.quit()
 sys.exit()
