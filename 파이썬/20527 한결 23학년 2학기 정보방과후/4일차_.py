@@ -9,6 +9,7 @@ pg.display.set_caption("그림 띄우기")
 screen=pg.display.set_mode((960,720))
 #이미지 링크
 img_ceobe=pg.image.load("케오베.png")
+font1=pygame.font.SysFont("맑은 고딕 Semilight",30)
 #진행
 running=True
 

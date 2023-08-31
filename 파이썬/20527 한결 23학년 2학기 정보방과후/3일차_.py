@@ -1,7 +1,6 @@
 import pygame as pg
 import pygame.display
 import sys
-import random as rd
 
 
 #시작
@@ -10,6 +9,7 @@ pg.display.set_caption("그림 띄우기")
 screen=pg.display.set_mode((960,720))
 #이미지 링크
 img_ceobe=pg.image.load("케오베.png")
+font1=pygame.font.SysFont("맑은 고딕 Semilight",30)
 #진행
 running=True
 
@@ -28,7 +28,5 @@ while running:
                 screen.fill((0,0,0))
         screen.blit(img_ceobe,[350,200])
         pygame.display.update()
-        for i in range(0,100):
-            screen.fill(0,rd.randrange(0,255),rd.randrange(0,255))
 pg.quit()
 sys.exit()
