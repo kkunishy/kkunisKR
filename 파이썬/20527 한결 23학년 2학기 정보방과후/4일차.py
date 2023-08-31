@@ -2,6 +2,9 @@ import pygame as pg
 import pygame.display
 import sys
 
+#변수
+ceobe_x=0
+ceobe_y=0
 
 #시작
 pg.init()
@@ -9,6 +12,7 @@ pg.display.set_caption("그림 띄우기")
 screen=pg.display.set_mode((960,720))
 #이미지 링크
 img_ceobe=pg.image.load("케오베.png")
+#폰트
 font1=pygame.font.SysFont("맑은 고딕 Semilight",100)
 #진행
 running=True
@@ -28,11 +32,22 @@ while running:
                 screen.fill((0,0,0))
         key=pg.key.get_pressed()
         #^^^  key[pygame.K_UP]=1 을 출력
-        screen.blit(img_ceobe,[350,200])
+        if key[pg.K_UP]==True:
+            ceobe_y+=10
+        if key[pg.K_DOWN]==True:
+            ceobe_y-=10
+        if key[pg.K_LEFT]==True:
+            ceobe_x+=10
+        if key[pg.K_RIGHT]==True:
+            ceobe_x-=10
+
+
+        screen.fill((0, 0, 0))
         txt1=font1.render("Up key enabled:"+str(key[pg.K_UP]),True,(0,255,255),(0,0,0))
         screen.blit(txt1,[100,100])
-        txt2=font1.render("your dad",True,(0,255,255),(0,0,0))
+        txt2=font1.render("Down key enabled:"+str(key[pg.K_DOWN]),True,(0,255,255),(0,0,0))
         screen.blit(txt2,[100,300])
+        screen.blit(img_ceobe, [350, 200])
         pygame.display.update()
 pg.quit()
 sys.exit()
