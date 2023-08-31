@@ -5,7 +5,10 @@ import sys
 #변수
 ceobe_x=0
 ceobe_y=0
-
+clock_x=0
+clock_y=100
+circle_x=0
+circle_y=0
 #시작
 pg.init()
 pg.display.set_caption("그림 띄우기")
@@ -31,6 +34,12 @@ while running:
                 screen.fill((180,200,100))
             if event.key==pg.K_SPACE:
                 screen.fill((0,0,0))
+
+        if event.type==pg.MOUSEMOTION:
+            circle_x,circle_y=pg.mouse.get_pos()
+
+
+
     key=pg.key.get_pressed()
         #^^^  key[pygame.K_UP]=1 을 출력
     if key[pg.K_UP]==True:
@@ -49,15 +58,17 @@ while running:
     txt2=font1.render("Down key enabled:"+str(key[pg.K_DOWN]),True,(0,255,255),(0,0,0))
     screen.blit(txt2,[100,300])
     screen.blit(img_ceobe, [ceobe_x, ceobe_y])
-    pygame.display.update()
-    if ceobe_x<0:
-        ceobe_x=0
-    if ceobe_x>960:
-        ceobe_x=960
-    if ceobe_y<0:
-        ceobe_y=0
-    if ceobe_y>720:
+    screen.blit(img_ceobe,[clock_x,clock_y])
+    clock_x=(clock_x+1)%960
+    pg.draw.circle(screen,(255,0,0),[circle_x,circle_y],50)
+    if ceobe_x<-100:
+        ceobe_x=-100
+    if ceobe_x>720:
         ceobe_x=720
-    print(str(ceobe_x)+"+"+str(ceobe_y))
+    if ceobe_y<-100:
+        ceobe_y=-100
+    if ceobe_y>500:
+        ceobe_y=500
+    pygame.display.update()
 pg.quit()
 sys.exit()
