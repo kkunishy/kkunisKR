@@ -1,7 +1,8 @@
 import pygame as pg
+import pygame.display
 import sys
 import random as rd
-import pygame.display
+
 
 #시작
 pg.init()
