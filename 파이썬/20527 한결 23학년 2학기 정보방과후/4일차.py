@@ -10,6 +10,7 @@ ceobe_y=0
 pg.init()
 pg.display.set_caption("그림 띄우기")
 screen=pg.display.set_mode((960,720))
+clock=pg.time.Clock()
 #이미지 링크
 img_ceobe=pg.image.load("케오베.png")
 #폰트
@@ -30,24 +31,33 @@ while running:
                 screen.fill((180,200,100))
             if event.key==pg.K_SPACE:
                 screen.fill((0,0,0))
-        key=pg.key.get_pressed()
+    key=pg.key.get_pressed()
         #^^^  key[pygame.K_UP]=1 을 출력
-        if key[pg.K_UP]==True:
-            ceobe_y+=10
-        if key[pg.K_DOWN]==True:
-            ceobe_y-=10
-        if key[pg.K_LEFT]==True:
-            ceobe_x+=10
-        if key[pg.K_RIGHT]==True:
-            ceobe_x-=10
+    if key[pg.K_UP]==True:
+        ceobe_y-=1
+    if key[pg.K_DOWN]==True:
+        ceobe_y+=1
+    if key[pg.K_LEFT]==True:
+        ceobe_x-=1
+    if key[pg.K_RIGHT]==True:
+        ceobe_x+=1
 
 
-        screen.fill((0, 0, 0))
-        txt1=font1.render("Up key enabled:"+str(key[pg.K_UP]),True,(0,255,255),(0,0,0))
-        screen.blit(txt1,[100,100])
-        txt2=font1.render("Down key enabled:"+str(key[pg.K_DOWN]),True,(0,255,255),(0,0,0))
-        screen.blit(txt2,[100,300])
-        screen.blit(img_ceobe, [350, 200])
-        pygame.display.update()
+    screen.fill((0, 0, 0))
+    txt1=font1.render("Up key enabled:"+str(key[pg.K_UP]),True,(0,255,255),(0,0,0))
+    screen.blit(txt1,[100,100])
+    txt2=font1.render("Down key enabled:"+str(key[pg.K_DOWN]),True,(0,255,255),(0,0,0))
+    screen.blit(txt2,[100,300])
+    screen.blit(img_ceobe, [ceobe_x, ceobe_y])
+    pygame.display.update()
+    if ceobe_x<0:
+        ceobe_x=0
+    if ceobe_x>960:
+        ceobe_x=960
+    if ceobe_y<0:
+        ceobe_y=0
+    if ceobe_y>720:
+        ceobe_x=720
+    print(str(ceobe_x)+"+"+str(ceobe_y))
 pg.quit()
 sys.exit()
