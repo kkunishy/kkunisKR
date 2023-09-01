@@ -1,5 +1,6 @@
 import pygame as pg
 import pygame.display
+import random as rd
 import sys
 
 #변수
@@ -9,9 +10,14 @@ clock_x=0
 clock_y=100
 circle_x=0
 circle_y=0
+circle_radius=50
+R=100
+G=100
+B=100
+
 #시작
 pg.init()
-pg.display.set_caption("그림 띄우기")
+pg.display.set_caption("ceobe is a fucking idiot ")
 screen=pg.display.set_mode((960,720))
 clock=pg.time.Clock()
 #이미지 링크
@@ -37,8 +43,17 @@ while running:
 
         if event.type==pg.MOUSEMOTION:
             circle_x,circle_y=pg.mouse.get_pos()
-
-
+        if event.type==pg.MOUSEBUTTONDOWN:
+            if event.button==1:
+                R=rd.randint(0,255)         #rd=random
+            if event.button==2:
+                G=rd.randint(0,255)
+            if event.button==3:
+                B=rd.randint(0,255)
+            if event.button==4:
+                circle_radius+=10
+            if event.button==5:
+                circle_radius-=10
 
     key=pg.key.get_pressed()
         #^^^  key[pygame.K_UP]=1 을 출력
@@ -51,7 +66,6 @@ while running:
     if key[pg.K_RIGHT]==True:
         ceobe_x+=1
 
-
     screen.fill((0, 0, 0))
     txt1=font1.render("Up key enabled:"+str(key[pg.K_UP]),True,(0,255,255),(0,0,0))
     screen.blit(txt1,[100,100])
@@ -60,7 +74,7 @@ while running:
     screen.blit(img_ceobe, [ceobe_x, ceobe_y])
     screen.blit(img_ceobe,[clock_x,clock_y])
     clock_x=(clock_x+1)%960
-    pg.draw.circle(screen,(255,0,0),[circle_x,circle_y],50)
+    pg.draw.circle(screen,(R,G,B),[circle_x,circle_y],circle_radius)
     if ceobe_x<-100:
         ceobe_x=-100
     if ceobe_x>720:
@@ -69,6 +83,8 @@ while running:
         ceobe_y=-100
     if ceobe_y>500:
         ceobe_y=500
+    if circle_radius<0:
+        circle_radius=0
     pygame.display.update()
 pg.quit()
 sys.exit()
