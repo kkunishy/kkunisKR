@@ -3,7 +3,12 @@ import sys
 
 #전역변수 영역
 #이미지 영역
-img_bg=pg.image.load()
+img_bg=pg.image.load("6일차)galaxy.png")
+img_ss=[
+                pg.image.load("6일차)galaxy.png")
+                pg.image.load("6일차)galaxy.png")
+                pg.image.load("6일차)galaxy.png")
+                pg.image.load("6일차)galaxy.png")]
 #함수 영역
 #시작영역
 pg.init()
