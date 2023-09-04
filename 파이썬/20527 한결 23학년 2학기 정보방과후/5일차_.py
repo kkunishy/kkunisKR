@@ -46,7 +46,8 @@ while running:
                 R=rd.randint(0,255)
             if event.key==pg.K_RIGHT:
                 G,B=rd.randint(0,255),rd.randint(0,255)
-
+    if circle_radius<0:
+        circle_radius=0
     key = pg.key.get_pressed()
     pg.draw.circle(screen,(R,G,B),[circle_x,circle_y],circle_radius)
     pygame.display.update()
