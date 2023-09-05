@@ -7,12 +7,12 @@ ss_x=(960/2)-37
 ss_y=(720/2)+48
 ss_speed=5
 #이미지 영역
-img_bg=pg.image.load("6일차)galaxy.png")
+img_bg=pg.image.load("galaxy.png")
 img_ss=[
-                pg.image.load("6일차)starship.png"),
-                pg.image.load("6일차)starship_l.png"),
-                pg.image.load("6일차)starship_r.png"),
-                pg.image.load("6일차)starship_burner.png")
+                pg.image.load("starship.png"),
+                pg.image.load("starship_l.png"),
+                pg.image.load("starship_r.png"),
+                pg.image.load("starship_burner.png")
                      ]
 #함수 영역
 #시작영역
