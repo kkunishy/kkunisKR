@@ -97,7 +97,7 @@ def move_ship(screen,key):
             b_list.append(b)
             
     if key[pg.K_z]==1:
-        if z_t >= 100:
+        if z_t >= 10:
             z_t = 0
 
             for a in range ( 0, 360, 1 ) :
@@ -108,7 +108,7 @@ def move_ship(screen,key):
 def draw_bullet(screen):
     global s,rdnum
     for i in b_list :
-        img_temp = pg.transform.rotozoom(img_bul, i.a, 1.0)
+        img_temp = pg.transform.rotozoom(img_bul, i.a, 1)
         screen.blit(img_temp,  [i.x, i.y])
         i.x-=36*math.sin(math.radians(i.a))
         i.y-=36*math.cos(math.radians(i.a))
@@ -117,10 +117,21 @@ def draw_bullet(screen):
             b_list.remove(i)       
 def draw_enemy(screen):
     global tmr,e_list
-
-    if tmr%30==0:
-        e=enemy(rd.randint(0,930-img_enemy[1].get_width()),-80,0,1,10,1)
+    if tmr%15==0:
+        x=rd.randint(0,960-img_enemy[1].get_width())
+        e=enemy(x,-80,1,1,10,1)
         e_list.append(e)
+
+    for i in e_list:
+        if 300<=i.y <=330:
+            i.a=rd.randint(-360,360)
+        img_rz=pg.transform.rotozoom(img_enemy[i.img_num],i.a,1.0)
+        i.x=i.x+i.speed*math.cos(math.radians(i.a))
+        i.y=i.y+i.speed*math.sin(math.radians(i.a))
+        screen.blit(img_rz,[i.x,i.y])
+        i.y+=i.speed
+        if i.y>720 or i.x<0 or i.x>960:
+            e_list.remove(i)
 #시작영역
 #진행 영역
 def main():
@@ -156,12 +167,13 @@ def main():
         screen.blit(img_ss[s.img_num],[s.x,s.y])
 
         draw_bullet(screen)
+        draw_enemy(screen)
         
         clock.tick(50)
-        if s.speed <= 20:
-            s.speed = 21
-        if s.speed>50:
-            s.speed=49
+        if s.speed <= 9:
+            s.speed = 10
+        if s.speed>30:
+            s.speed=29
         pg.display.update()
     pg.quit()
     sys.exit()
