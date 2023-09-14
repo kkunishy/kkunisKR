@@ -37,7 +37,16 @@ class enemy :
         self.img_num = img_num
         self.speed = speed
         self.count = count
-        
+class explosion:
+    x=0
+    y=0
+    img_num=0
+
+    def __init__(self,x,y,img_num):
+        self.x=x
+        self.y=y
+        self.img_num=img_num
+
 
 
         
@@ -49,6 +58,7 @@ class enemy :
 bg_scroll=0
 b_list = []
 e_list = []
+explosion_list=[]
 
 tmr = 0
 b_t = 0
@@ -75,9 +85,23 @@ img_enemy = [
                         pg.image.load("enemy_boss.png"),
                         pg.image.load("enemy_boss_f.png")
                     ]
-
+img_explosion=[
+                pg.image.load("explosion1.png"),
+                pg.image.load("explosion2.png"),
+                pg.image.load("explosion3.png"),
+                pg.image.load("explosion4.png"),
+                pg.image.load("explosion5.png")
+                    ]
 
 #함수 영역
+def draw_explosion(screen):
+    for ex in explosion_list:
+        screen.blit(img_explosion[ex.img_num],[ex.x,ex.y])
+        ex.img_num+=1
+        if ex.img_num%5==0:
+            explosion_list.remove(ex)
+
+
 def move_ship(screen,key):
     global b_t, s, z_t
 
@@ -105,10 +129,10 @@ def move_ship(screen,key):
             b_list.append(b)
             
     if key[pg.K_z]==1:
-        if z_t >=15 :
+        if z_t >=5 :
             z_t = 0
 
-            for a in range ( 0, 360, 10 ) :
+            for a in range ( 0, 360, 1 ) :
                 z = bullet (s.x+10, s.y+10 , a , 10 )
                 b_list.append(z)
             
@@ -116,7 +140,7 @@ def move_ship(screen,key):
 def draw_bullet(screen):
     for i in b_list :
 
-        img_temp = pg.transform.rotozoom(img_bul, i.a, 1.0)
+        img_temp = pg.transform.rotozoom(img_bul, i.a, 0.01)
         screen.blit(img_temp,  [i.x, i.y])
 
         i.x = i.x - 10*math.sin(math.radians(i.a))
@@ -124,17 +148,38 @@ def draw_bullet(screen):
 
         if i.y<0 or i.y > 700 or i.x < 0 or i.x>950:
             b_list.remove(i)
-        for j in e_list:
-            if hit_check(i.x,i.y,j.x,j.y,img_enemy[j.img_num].get_width(),img_enemy[i.img_num].get_height()):
-                b_list.remove(i)
-                r_list.remove(i)
+        else:
+            for j in e_list:
+                if distance(i.x,i.y,j.x,j.y,img_enemy[j.img_num].get_width(),img_enemy[j.img_num].get_height()):
+                    ex=explosion(j.x,j.y,0)
+                    explosion_list.append(ex)
+                
+                    e_list.remove(j)
+                    b_list.remove(i)
+                    break
+def distance(x1,y1,x2,y2,w2,h2):
+    #x1,y1은 ship
+    #x2,y2,ww2,h2는 enemy
+    #if (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)<=(math.sqrt((w1/2)**2+h1/2)**2)+math.sqrt((w2/2)**2+(h2/2)**2)**2:
+    return (x1-x2)**2+(y1-y2)**2<w2**2+h2**2
+            
+    
 def draw_enemy(screen) :
     global tmr
 
     if tmr % 10 == 0 :
-        x = random.randint(0,960-img_enemy[1].get_width())
-        e = enemy(x, -80, 0, 1, 10, 1)   
-        e_list.append(e)
+        if 0<=tmr<1000:
+            x = random.randint(0,960-img_enemy[1].get_width())
+            e = enemy(x, -80, 0, 3, 10, 1)   
+            e_list.append(e)
+        elif 1000<=tmr<2000:
+            x = random.randint(0,960-img_enemy[1].get_width())
+            e = enemy(x, -80, 0, 2, 10, 1)   
+            e_list.append(e)
+        elif 2000<=tmr<3000:
+            x = random.randint(0,960-img_enemy[1].get_width())
+            e = enemy(x, -80, 0, 3, 10, 1)   
+            e_list.append(e)
 
     for i in e_list :
         if i.y == 20 :
@@ -152,14 +197,9 @@ def draw_enemy(screen) :
 
         if i.y<-100 or i.y > 720 or i.x < 0 or i.x > 960 :
             e_list.remove(i)
-        if hit_check(s.x,s.y,i.x,i.y,img_enemy[i.img_num].get_width(),img_enemy[i.img_num].get_height()):
+        if distance(s.x,s.y,i.x,i.y,img_enemy[i.img_num].get_width(),img_enemy[i.img_num].get_height()):
             e_list.remove(i)
-def distance(x1,y1,w1,h1,x2,y2,w2,h2):
-    #x1,y1은 ship
-    #x2,y2,ww2,h2는 enemy
-        if (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2)>w2*w2+h2*h2:
-            
-            pass
+
         
 #시작영역
 #진행 영역
@@ -196,6 +236,7 @@ def main():
 
         draw_bullet(screen)
         draw_enemy(screen)
+        draw_explosion(screen)
         
         clock.tick(50)
         if s.speed <= 9:
