@@ -25,6 +25,7 @@ class enemy :
     x = 0
     y = 0
     speed = 0
+    
 
         
 img_bg=pg.image.load("galaxy.png")
@@ -35,8 +36,9 @@ img_bul=pg.image.load("bullet.png")
 s = starship()
 e=enemy()
 e_list=[]
+b_list=[]
 bg_scroll=0
-
+ang=1
 tmr=0
 b_t=0
 z_t=0
@@ -46,31 +48,46 @@ def move_ship(screen,key):
 
     if key[pg.K_LEFT]==1 and s.x>0:
         s.x-=s.speed
-        s.img_num=1
-    if key[pg.K_RIGHT]==1 and s.x<960-74:
+    if key[pg.K_RIGHT]==1 and s.x<960-24:
         s.x+=s.speed
-        s.img_num=2
     if key[pg.K_UP]==1 and s.y>0:
         s.y-=s.speed
-    if key[pg.K_DOWN]==1 and s.y<720-96:
+    if key[pg.K_DOWN]==1 and s.y<720-40:
         s.y+=s.speed
     if key[pg.K_SPACE]==1:
         s.speed=7
     else:
         s.speed=15
 def draw_boss(screen):
-    global tmr
-
-
-def draw_enemy(screen) :
-    global tmr
-    e.x+=1
-
-
-            
+    global tmr,ang,b_t,e,b_list
+    if e.x<0 or e.x>519:
+        ang+=1
+        
+    if ang%2==1:
+        e.x+=1
+    elif ang%2==0:
+        e.x-=1
+        
+    if b_t >=10 :
+            b_t = 0
+            b = bullet(e.x+200, e.y+170, 0, 10)
+            b_list.append(b)
     screen.blit(img_boss, [e.x,e.y])
+    
+def draw_bullet(screen):
+    global e,b_list
+    for i in b_list :
+        img_temp = pg.transform.rotozoom(img_bul,i.a,1)
+            
+        screen.blit(img_temp,[i.x ,i.y])
+        i.x = i.x - 10*math.sin(math.radians(i.a))
+        i.y = i.y - 10*math.cos(math.radians(i.a))
+        
+        if i.y<0 or i.y > 700 or i.x < 0 or i.x>950:
+            b_list.remove(i)
+
 def main():
-    global s, img_bg,bg_scroll,tmr,e_list
+    global s, img_bg,bg_scroll,tmr,e_list,b_t
     pg.init()
     pg.display.set_caption("와샌즈")
     screen = pg.display.set_mode((960, 720))
@@ -80,7 +97,7 @@ def main():
 
     while running:
         tmr+=1
-        print(e_list)
+        b_t+=1
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 running=False
@@ -96,11 +113,11 @@ def main():
         bg_scroll=(bg_scroll+5)%720
         screen.blit(img_ss[0],[s.x,s.y])
         
-        draw_enemy(screen)
+        draw_boss(screen)
+        draw_bullet(screen)
         clock.tick(50)
 
         pg.display.update()
-        print(s.speed)
     pg.quit()
     sys.exit()
 
