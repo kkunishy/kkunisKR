@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 import math
-import random
+import random as rd
 
 
 class starship :
@@ -23,7 +23,7 @@ class bullet :
         self.speed = speed
 class enemy :
     x = 0
-    y = 0
+    y = 200
     speed = 0
     
 
@@ -42,6 +42,7 @@ ang=1
 tmr=0
 b_t=0
 z_t=0
+spd=3
 
 def move_ship(screen,key):
     global s
@@ -59,7 +60,7 @@ def move_ship(screen,key):
     else:
         s.speed=15
 def draw_boss(screen):
-    global tmr,ang,b_t,e,b_list
+    global tmr,ang,b_t,e,b_list,spd
     if e.x<0 or e.x>519:
         ang+=1
         
@@ -68,20 +69,29 @@ def draw_boss(screen):
     elif ang%2==0:
         e.x-=1
         
-    if b_t >=10 :
-            b_t = 0
-            b = bullet(e.x+200, e.y+170, 0, 10)
+    if b_t >=10:
+        b_t = 0
+        for a in range ( 0, 360, 60) :
+            b = bullet(e.x+200, e.y+170, a, spd)
             b_list.append(b)
     screen.blit(img_boss, [e.x,e.y])
     
 def draw_bullet(screen):
-    global e,b_list
-    for i in b_list :
-        img_temp = pg.transform.rotozoom(img_bul,i.a,1)
-            
+    global e,b_list,ang,spd,tmr
+    
+    for i in b_list:
+        if ang%2==1:
+            i.a+=0.5
+            spd=5
+        elif ang%2==0:
+            i.a-=0.8
+            spd=2
+        img_temp = pg.transform.rotozoom(img_bul,i.a,0.3)
         screen.blit(img_temp,[i.x ,i.y])
-        i.x = i.x - 10*math.sin(math.radians(i.a))
-        i.y = i.y - 10*math.cos(math.radians(i.a))
+        
+        i.x = i.x - i.speed*math.sin(math.radians(i.a))
+        i.y = i.y - i.speed*math.cos(math.radians(i.a))
+        
         
         if i.y<0 or i.y > 700 or i.x < 0 or i.x>950:
             b_list.remove(i)
