@@ -49,8 +49,6 @@ class explosion:
 
 
 
-        
-
 
 
 
@@ -65,6 +63,12 @@ b_t = 0
 z_t = 0
 s = starship()
 
+sound_shot=None
+sound_gameover=None
+sound_gameclear=None
+sound_explosion=None
+sound_damage=None
+sound_barrage=None
 
 
 #이미지 영역
@@ -103,7 +107,7 @@ def draw_explosion(screen):
 
 
 def move_ship(screen,key):
-    global b_t, s, z_t
+    global b_t, s, z_t, sound_shot
 
     if key[pg.K_LEFT]==1 and s.x>0:
         s.x-=s.speed
@@ -127,10 +131,12 @@ def move_ship(screen,key):
             b_t = 0
             b = bullet(s.x+27, s.y, 0, 10)
             b_list.append(b)
+            sound_shot.play()
             
     if key[pg.K_z]==1:
         if z_t >=5 :
             z_t = 0
+            sound_barrage.play()
 
             for a in range ( 0, 360, 1 ) :
                 z = bullet (s.x+10, s.y+10 , a , 10 )
@@ -140,7 +146,7 @@ def move_ship(screen,key):
 def draw_bullet(screen):
     for i in b_list :
 
-        img_temp = pg.transform.rotozoom(img_bul, i.a, 0.01)
+        img_temp = pg.transform.rotozoom(img_bul, i.a,0.1)
         screen.blit(img_temp,  [i.x, i.y])
 
         i.x = i.x - 10*math.sin(math.radians(i.a))
@@ -167,18 +173,18 @@ def distance(x1,y1,x2,y2,w2,h2):
 def draw_enemy(screen) :
     global tmr
 
-    if tmr % 10 == 0 :
+    if tmr % 2 == 0 :
         if 0<=tmr<1000:
             x = random.randint(0,960-img_enemy[1].get_width())
-            e = enemy(x, -80, 0, 3, 10, 1)   
+            e = enemy(x, -80, 0, 4, 20, 1)   
             e_list.append(e)
         elif 1000<=tmr<2000:
             x = random.randint(0,960-img_enemy[1].get_width())
-            e = enemy(x, -80, 0, 2, 10, 1)   
+            e = enemy(x, -80, 0, 2, 20, 1)   
             e_list.append(e)
-        elif 2000<=tmr<3000:
+        elif 2000<=tmr:
             x = random.randint(0,960-img_enemy[1].get_width())
-            e = enemy(x, -80, 0, 3, 10, 1)   
+            e = enemy(x, -80, 0, 3, 20, 1)   
             e_list.append(e)
 
     for i in e_list :
@@ -188,7 +194,7 @@ def draw_enemy(screen) :
                 e=enemy(i.x,i.y+1,a,0,3,5)
                 e_list.append(e)
 
-        img_rz = pg.transform.rotozoom(img_enemy[i.img_num],i.a, 1.0)
+        img_rz = pg.transform.rotozoom(img_enemy[i.img_num],i.a, 0.5)
 
         i.x = i.x+i.speed*math.sin(math.radians(i.a))
         i.y = i.y+i.speed*math.cos(math.radians(i.a))
@@ -204,11 +210,22 @@ def draw_enemy(screen) :
 #시작영역
 #진행 영역
 def main():
-    global b_t, bg_scroll, s, z_t, tmr
+    global b_t, bg_scroll, s, z_t, tmr,sound_shot,sound_gameover,sound_gameclear,sound_explosion,sound_damage,sound_barrage
     pg.init()
     pg.display.set_caption("동방프로젝트 해적판wwwww")
     screen = pg.display.set_mode((960, 720))
     clock = pg.time.Clock()
+    sound_shot=pg.mixer.Sound("shot.ogg")
+    sound_gameover=pg.mixer.Sound("gameover.ogg")
+    sound_gameclear=pg.mixer.Sound("gameclear.ogg")
+    sound_explosion=pg.mixer.Sound("explosion.ogg")
+    sound_damage=pg.mixer.Sound("damage.ogg")
+    sound_barrage=pg.mixer.Sound("barrage.ogg")
+
+    
+    pg.mixer.music.load("bgm.ogg")
+    pg.mixer.music.play(-1)
+    
     running=True
 
     while running:
@@ -233,6 +250,8 @@ def main():
         if bg_scroll%10==0:
             screen.blit(img_ss[3],[s.x+29, s.y+100])
         screen.blit(img_ss[s.img_num],[s.x,s.y])
+        pg.transform.rotozoom(img_ss[s.img_num],0,0.1)
+        
 
         draw_bullet(screen)
         draw_enemy(screen)
