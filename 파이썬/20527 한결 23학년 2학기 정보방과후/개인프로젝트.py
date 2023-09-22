@@ -69,7 +69,7 @@ def draw_boss(screen):
     elif ang%2==0:
         e.x-=1
         
-    if b_t >=10:
+    if b_t >=50:
         b_t = 0
         for a in range ( 0, 360, 60) :
             b = bullet(e.x+200, e.y+170, a, spd)
@@ -77,15 +77,15 @@ def draw_boss(screen):
     screen.blit(img_boss, [e.x,e.y])
     
 def draw_bullet(screen):
-    global e,b_list,ang,spd,tmr
+    global e,b_list,ang,spd,tmr,z_t
     
     for i in b_list:
         if ang%2==1:
-            i.a+=0.5
-            spd=5
+            i.a+=1
+            spd=10
         elif ang%2==0:
-            i.a-=0.8
-            spd=2
+            i.a-=0.5
+            spd=1
         img_temp = pg.transform.rotozoom(img_bul,i.a,0.3)
         screen.blit(img_temp,[i.x ,i.y])
         
@@ -93,11 +93,11 @@ def draw_bullet(screen):
         i.y = i.y - i.speed*math.cos(math.radians(i.a))
         
         
-        if i.y<0 or i.y > 700 or i.x < 0 or i.x>950:
-            b_list.remove(i)
+        #if i.y<-200 or i.y > 1000 or i.x < -400 or i.x>1250:
+            #b_list.remove(i)
 
 def main():
-    global s, img_bg,bg_scroll,tmr,e_list,b_t
+    global s, img_bg,bg_scroll,tmr,e_list,b_t,z_t
     pg.init()
     pg.display.set_caption("와샌즈")
     screen = pg.display.set_mode((960, 720))
@@ -108,6 +108,7 @@ def main():
     while running:
         tmr+=1
         b_t+=1
+        z_t+=1
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 running=False
@@ -125,7 +126,7 @@ def main():
         
         draw_boss(screen)
         draw_bullet(screen)
-        clock.tick(50)
+        clock.tick(100)
 
         pg.display.update()
     pg.quit()
