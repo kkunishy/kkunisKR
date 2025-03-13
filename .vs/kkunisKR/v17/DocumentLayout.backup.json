@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\Main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\1\uBB38\uB2E8) .txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:1\uBB38\uB2E8) .txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\KOPO2025\\Main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:KOPO2025\\Main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +14,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Main.c",
-              "DocumentMoniker": "C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\Main.c",
-              "RelativeDocumentMoniker": "Main.c",
-              "ToolTip": "C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\Main.c",
-              "RelativeToolTip": "Main.c",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\KOPO2025\\Main.c",
+              "RelativeDocumentMoniker": "KOPO2025\\Main.c",
+              "ToolTip": "C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\KOPO2025\\Main.c",
+              "RelativeToolTip": "KOPO2025\\Main.c",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2025-03-13T01:47:18.886Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "1\uBB38\uB2E8) .txt",
-              "DocumentMoniker": "C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\1\uBB38\uB2E8) .txt",
-              "RelativeDocumentMoniker": "1\uBB38\uB2E8) .txt",
-              "ToolTip": "C:\\Users\\user\\Documents\\GitHub\\kkunisKR\\1\uBB38\uB2E8) .txt",
-              "RelativeToolTip": "1\uBB38\uB2E8) .txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-03-13T01:46:47.294Z"
             }
           ]
         }
