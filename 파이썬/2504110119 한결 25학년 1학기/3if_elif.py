@@ -63,4 +63,3 @@ print("지불금액: ",{int(fee)},"원")
 print("할인금액: ",{int(fee_old-fee)},"원")
 
 
-
