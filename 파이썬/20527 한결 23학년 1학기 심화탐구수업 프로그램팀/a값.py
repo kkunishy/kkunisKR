@@ -32,8 +32,6 @@ for h in range(0,k):
 print('n;',n)
 print('m;',m)
 
-
-
 # 오류1-a의 편차가 0이 되는 경우- 분모가 0이라 연산 불가
 
 while int(m[0].count(0))>0:                     # 기준자료a의 편차에 0이 있는지 확인
