@@ -63,3 +63,4 @@ window.after(5000, tamagotchi.decrease_status)
 
 # Run the main loop
 window.mainloop()
+
