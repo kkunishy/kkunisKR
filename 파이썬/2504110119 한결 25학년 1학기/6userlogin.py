@@ -113,7 +113,7 @@ while True:
     elif choice == '5':
         prtuser()
     elif choice == '6':
-        print("프로그램을 종료합니다.")
+        print("종료합니다.")
         break
     else:
         print("잘못된 선택입니다.")
