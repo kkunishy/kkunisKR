@@ -10,3 +10,7 @@ elif dice1<dice2:
     print("주사위2 승")
 else:
     print("무승부")
+
+asdfa=random.randint(a=123,b=123123)
+print(int(asdfa))
+dddd
