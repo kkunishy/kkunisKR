@@ -13,4 +13,3 @@ else:
 
 asdfa=random.randint(a=123,b=123123)
 print(int(asdfa))
-dddd
