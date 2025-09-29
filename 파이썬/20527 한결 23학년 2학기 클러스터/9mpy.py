@@ -1,0 +1,1 @@
+def deposit2(amount)
